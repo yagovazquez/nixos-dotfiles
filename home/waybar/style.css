@@ -1,0 +1,108 @@
+/* Waybar style using TokyoNight Moon colors */
+
+* {
+  font-size: 11px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* Bar container */
+#waybar {
+  background-color: #1f2335;
+  color: #c0caf5;
+  border-bottom: 1px solid #3b4261;
+  padding: 0 3px;
+  padding-top: 2px;
+}
+
+/* Workspaces */
+#workspaces button {
+  background: transparent;
+  border: none;
+  margin: 0 2px;
+  padding: 0 2px;
+  color: inherit;
+}
+
+
+#workspaces button.active {
+  color: #bb9af7;
+}
+
+#workspaces button.urgent {
+  color: #f7768e;
+}
+
+/* Module spacing */
+#cpu,
+#memory,
+#network,
+#battery,
+#backlight,
+#pulseaudio,
+#custom-timer,
+#clock {
+  padding: 0 6px;
+  margin: 0 2px;
+}
+
+/* Hover consistency */
+label:hover {
+  background: transparent;
+}
+
+/* Subtle separators */
+#cpu,
+#memory,
+#network,
+#battery,
+#backlight,
+#pulseaudio,
+#custom-timer,
+#clock {
+  border-left: 1px solid transparent;
+}
+#cpu + #memory,
+#memory + #network,
+#network + #battery,
+#battery + #backlight,
+#backlight + #pulseaudio,
+#pulseaudio + #custom-timer,
+#custom-timer + #clock {
+  border-left-color: #181a29;
+}
+
+/* Battery states */
+#battery.good label     { color: #9ece6a; }
+#battery.warning label  { color: #e0af68; }
+#battery.critical label { color: #f7768e; }
+#battery.charging label,
+#battery.plugged label  { color: #73daca; }
+
+/* Audio mute state */
+#pulseaudio.muted { color: #565f89; }
+
+/* Clock accent */
+#clock { color: #7aa2f7; }
+
+/* Network states */
+#network.disconnected { color: #f7768e; }
+#network.linked       { color: #e0af68; }
+#network.wifi,
+#network.ethernet     { color: #7dcfff; }
+
+/* Hover highlight for modules */
+#cpu:hover,
+#memory:hover,
+#network:hover,
+#battery:hover,
+#backlight:hover,
+#pulseaudio:hover,
+#custom-timer:hover,
+#clock:hover {
+  background: #2a3158;
+  border-radius: 8px;
+}

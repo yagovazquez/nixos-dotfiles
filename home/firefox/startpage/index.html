@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Startpage</title>
+<link rel="stylesheet" href="style.css" />
+<body>
+  <main class="wrap">
+    <aside class="panel"></aside>
+
+    <section class="card">
+      <h1><span class="muted">Welcome,</span> agallas</h1>
+      <p class="clock" id="clock"></p>
+
+      <form class="search" action="https://google.com/search" method="get">
+        <input name="q" type="text" placeholder="› search…" autofocus />
+      </form>
+
+      <div class="grid">
+        <div>
+          <h3>Frequent</h3>
+          <a href="https://mail.google.com">Gmail</a><br />
+          <a href="https://www.youtube.com/">Youtube</a><br />
+          <a href="https://www.reddit.com/">Reddit</a><br />
+          <a href="https://www.youtube.com/">YouTube</a>
+        </div>
+
+        <div>
+          <h3>Academia</h3>
+          <a href="https://es.overleaf.com/">Overleaf</a><br />
+          <a href="https://sede.ugr.es/">Sede electrónica</a><br />
+          <a href="https://oficinavirtual.ugr.es/ai/">Oficina virtual</a><br />
+          <a href="https://webmailest.ugr.es/">Correo UGR</a><br />
+          <a href="https://pradogrado2526.ugr.es/my"/>Prado</a>
+        </div>
+
+        <div>
+          <h3>Some stuff</h3>
+          <a href="https://chatgpt.com/">ChatGPT</a><br />
+          <a href="https://neovim.io/doc/user/quickref.html#quickref">QuickRef nvim</a><br />
+          <a href="https://web.whatsapp.com/">whatsApp</a><br />
+          <a href="https://www.linkedin.com/feed/?trk=guest_homepage-basic_nav-header-signin">Linkedin</a>
+        </div>
+
+        <div>
+          <h3>NixOs</h3>
+          <a href="https://nixos-and-flakes.thiscute.world/introduction/">NixOs book</a><br />
+          <a href="https://search.nixos.org/packages">Search packages</a><br />
+          <a href="https://mynixos.com/">MyNixOs</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function tick() {
+      const el = document.getElementById("clock");
+      const now = new Date();
+      el.textContent = now.toLocaleString(undefined, {
+        year: "numeric", month: "long", day: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
+      });
+    }
+    tick(); setInterval(tick, 1000);
+  </script>
+</body>
+</html>

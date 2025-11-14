@@ -1,0 +1,12 @@
+
+//@theme "/home/agallas/.config/rofi/themes/simple-tokyonight.rasi"
+
+@theme "/home/agallas/.config/rofi/themes/tokyonight-moon.rasi"
+
+
+configuration {
+  modi: "drun,run,window";
+  show-icons: true;               /* <- this turns icons on */
+  drun-display-format: "{name}";  /* text shown; icon is separate column */
+  icon-theme: "NineIcons";     /* optional: pick your icon theme */
+}

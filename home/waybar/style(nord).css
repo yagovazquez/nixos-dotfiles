@@ -1,0 +1,76 @@
+
+* {
+  /*font-family: "PxPlus IBM VGA 9x16", "MxPlus IBM VGA 9x16", monospace;*/
+  font-size: 11px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* Bar container.  A near‑black background with a subtle green border on the
+ * bottom reinforces the retro feel.  Padding and margins are minimal to
+ * minimise vertical space usage. */
+#waybar {
+  background-color: #2e3440;
+  color: #88c0d0;
+  border-bottom: 1px solid #001b44;
+  padding: 0 3px;
+  padding-top: 2px;
+}
+
+#workspaces button {
+  background: transparent;
+  border: none;
+  margin: 0 2px;      /* puedes ajustar el espaciado horizontal */
+  padding: 0 2px;     /* un poco de aire, sin afectar a la “delgadez” de la barra */
+  color: inherit;     /* usa el color global de la barra */
+}
+
+/* (Opcional) si quieres un ligero realce de color en el activo */
+#workspaces button.active {
+  color: #b48ead;     /* tenue variación retro; elimina esta regla si no lo quieres */
+}
+
+/* Apply spacing to central and right modules so they don't stick together. */
+#cpu,
+#memory,
+#network,
+#battery,
+#backlight,
+#pulseaudio,
+#custom-timer,
+#clock {
+  padding: 0 6px;
+  margin: 0 2px;
+}
+
+/* Colour the battery text based on class.  These classes are applied
+ * automatically by Waybar when the capacity crosses thresholds defined in
+ * the config【356643054794256†L190-L201】.  An additional class for charging is
+ * available and is selected when the battery status is “charging”【356643054794256†L190-L201】. */
+#battery.good label,
+#battery.warning label,
+#battery.critical label,
+#battery.charging label,
+#battery.plugged label { color: inherit; }
+
+#battery.good label     { color: #00ff00; }
+#battery.warning label  { color: #ffff00; }
+#battery.critical label { color: #ff5555; }
+#battery.charging label { color: #00ffaa; }
+#battery.plugged label  { color: #00ffaa; }
+
+/* Highlight the volume indicator when muted to indicate silence. */
+#pulseaudio.muted {
+  color: #555555;
+}
+
+/* Customise network display: no icons, only text; align text centrally. */
+
+
+/* Remove default hover effect on modules to maintain consistency. */
+label:hover {
+  background: transparent;
+}
