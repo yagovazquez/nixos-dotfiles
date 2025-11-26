@@ -28,6 +28,9 @@
 
   home.packages = with pkgs; [
 
+    sqlite
+    sqlitebrowser
+
     teams-for-linux
     qutebrowser
     google-chrome

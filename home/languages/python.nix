@@ -11,6 +11,7 @@ let
     matplotlib
     yfinance
     tqdm
+    z3
   ]);
 in
 {
