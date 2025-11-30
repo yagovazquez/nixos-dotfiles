@@ -12,6 +12,7 @@ let
     yfinance
     tqdm
     z3
+    manim
   ]);
 in
 {
