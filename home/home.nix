@@ -28,6 +28,8 @@
 
   home.packages = with pkgs; [
 
+    ffmpeg
+
     sqlite
     sqlitebrowser
 

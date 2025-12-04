@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
   imports =
     [ 
       ./hardware-configuration.nix
@@ -86,10 +87,11 @@
      wget
      tree
      greetd.tuigreet
-     blueman	#bluetoth
+     blueman  # bluetooth
      kitty
+     haskell-language-server
+     xmobar
      ];
-
 
   ######################
   # Wayland + Hyprland #
@@ -127,6 +129,16 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # ----------------------------------------------------------------------------
+  # XMonad window manager (X11)
+
+  services.xserver.enable = true;
+  services.xserver.windowManager.xmonad = {
+    enable = true;
+    enableContribAndExtras = true;
+  };
+
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
+
