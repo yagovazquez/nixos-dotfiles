@@ -39,6 +39,18 @@ require("lazy").setup({
     end
   },
 
+  -- Highlight color codes in their actual color
+    { "brenoprata10/nvim-highlight-colors",
+      opts = {
+        enable_hex = true,        -- Highlight hex colors (e.g., #FFFFFF)
+        enable_short_hex = true,  -- Highlight short hex colors (e.g., #fff)
+        enable_rgb = true,        -- Highlight rgb() colors
+      },
+      config = function(_, opts)
+        require("nvim-highlight-colors").setup(opts)
+      end
+    },
+
   -- Statusline
   { "nvim-lualine/lualine.nvim",
     opts = { options = { theme = "tokyonight", globalstatus = true } },

@@ -4,6 +4,7 @@
 let
   py = pkgs.python312;
   pyEnv = py.withPackages (pypkgs: with pypkgs; [
+    notebook
     numpy
     pandas
     torch
@@ -13,6 +14,10 @@ let
     tqdm
     z3
     manim
+    seaborn
+    openpyxl
+    statsmodels
+    ipywidgets
   ]);
 in
 {
