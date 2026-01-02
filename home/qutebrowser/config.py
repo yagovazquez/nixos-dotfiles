@@ -2,7 +2,7 @@
 config.load_autoconfig(False)
 
 # Force dark interface colors
-c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.enabled = False
 
 # Open this page on new tabs
 c.url.default_page = "file:///home/agallas/nix-config/home/firefox/startpage/index.html"
@@ -11,10 +11,6 @@ c.url.start_pages = ["file:///home/agallas/nix-config/home/firefox/startpage/ind
 
 c.url.searchengines = {
     "DEFAULT": "https://www.google.com/search?q={}",
-    "g": "https://www.google.com/search?q={}",
-    "ddg": "https://duckduckgo.com/?q={}",
-    "gh": "https://github.com/search?q={}",
-    "yt": "https://www.youtube.com/results?search_query={}"
 }
 
 # === TokyoNight Moon theme for qutebrowser ===

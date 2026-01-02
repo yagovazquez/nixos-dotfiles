@@ -112,8 +112,27 @@
   gtk = {
     enable = true;
     iconTheme = {
-      name = "NineIcons";   # must match the Name= you grepped
-      package = null;       # we installed it ourselves
+      name = "NineIcons";   
+      package = null;       
+    };
+    theme = {
+      name = "Catppuccin-Mocha-Dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+  };
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
     };
   };
 
