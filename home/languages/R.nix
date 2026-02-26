@@ -20,9 +20,22 @@ let
     kableExtra  #both table rendering backends
     here  #stable project paths
     knitr #chunk options when knitting from Quarto/Rmd
+    MVN
+    biotools
+    caret
+    pROC
+    klaR
+    ggplot2
     #chatgpt said for nvim
     lintr
     styler
+    cluster
+    mclust
+    polycor
+    archdata
+    corrr
+    ggcorrplot
+    summarytools
   ];
 
   R-with-my-packages = pkgs.rWrapper.override {

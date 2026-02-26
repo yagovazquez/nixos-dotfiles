@@ -28,6 +28,8 @@
 
   home.packages = with pkgs; [
 
+    vitetris
+
     ffmpeg
 
     sqlite
