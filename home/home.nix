@@ -28,14 +28,13 @@
 
   home.packages = with pkgs; [
 
-    vitetris
+    qbittorrent
 
     ffmpeg
 
     sqlite
     sqlitebrowser
 
-    teams-for-linux
     qutebrowser
     google-chrome
     libreoffice
