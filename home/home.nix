@@ -14,6 +14,7 @@
     ./languages/python.nix
     ./languages/R.nix
     ./languages/ocaml.nix
+    ./languages/nodejs.nix
   ];
 
   home.username = "agallas";
