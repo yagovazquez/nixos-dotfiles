@@ -1,6 +1,7 @@
 /* Waybar style using TokyoNight Moon colors */
 
 * {
+  font-family: "MxPlus IBM VGA 9x16", monospace;
   font-size: 11px;
   min-height: 0;
   padding: 0;

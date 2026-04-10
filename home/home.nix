@@ -29,6 +29,8 @@
 
   home.packages = with pkgs; [
 
+    code-cursor
+
     qbittorrent
 
     ffmpeg
@@ -108,6 +110,7 @@
     hyprpaper
     hyprlock
     hyprshot
+    hyprsunset
 
   ];
 
@@ -120,6 +123,10 @@
     theme = {
       name = "Catppuccin-Mocha-Dark";
       package = pkgs.gnome-themes-extra;
+    };
+    font = {
+      name = "Noto Sans";
+      size = 11;
     };
     gtk3.extraConfig = {
       Settings = ''

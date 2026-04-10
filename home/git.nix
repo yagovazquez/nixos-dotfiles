@@ -8,5 +8,6 @@
     userEmail = "vazquezsanchezyago@gmail.com";
     extraConfig = { init.defaultBranch = "main"; pull.rebase = true; };
   };
+  programs.gh.enable = true;
 
 }
