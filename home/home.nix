@@ -29,6 +29,8 @@
 
   home.packages = with pkgs; [
 
+    windsurf
+
     siyuan
 
     qbittorrent
@@ -54,6 +56,14 @@
     obsidian             #note taking
     anki-bin             #flash cards
     vscode               # graphic code editor
+
+    # Claude Code Wrapper
+    # We use npx here because Claude Code actively refuses to run if it is even slightly outdated.
+    # This hermetic script isolates the nodejs version and always guarantees the latest patch.
+    (writeShellScriptBin "claude" ''
+      export PATH="${nodejs}/bin:$PATH"
+      exec npx -y @anthropic-ai/claude-code@latest "$@"
+    '')
 
     # Images edition
     gimp
