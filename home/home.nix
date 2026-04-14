@@ -29,7 +29,7 @@
 
   home.packages = with pkgs; [
 
-    code-cursor
+    siyuan
 
     qbittorrent
 
