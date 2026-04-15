@@ -34,6 +34,7 @@
     siyuan
 
     qbittorrent
+    stremio
 
     ffmpeg
 
