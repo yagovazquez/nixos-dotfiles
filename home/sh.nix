@@ -26,8 +26,8 @@
         #help = "bat ~/Desktop/comandos_terminal.txt";
         #helpvim = "bat ~/Desktop/comandos_neovim.txt";
         update = "sudo nixos-rebuild switch --flake 'path:/home/agallas/nix-config#nixos'";
-        updatehome = "home-manager switch --flake 'path:/home/agallas/nix-config#agallas'";
-        updatehome2 = "home-manager switch --flake ~/nix-config#agallas";
+        updatehome-safe = "home-manager switch --flake 'path:/home/agallas/nix-config#agallas'";
+        updatehome = "home-manager switch --flake ~/nix-config#agallas";
         note = ''nvim ~/Desktop/notes/$(date +"%m-%d_%H:%M").txt'';
         tasks = "cat ~/Desktop/notes/tasks.txt";
         newtask = "nvim ~/Desktop/notes/tasks.txt";
