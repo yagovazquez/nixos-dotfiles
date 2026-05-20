@@ -57,6 +57,7 @@
     obsidian             #note taking
     anki-bin             #flash cards
     vscode               # graphic code editor
+    
 
     # Claude Code Wrapper
     # We use npx here because Claude Code actively refuses to run if it is even slightly outdated.
@@ -84,6 +85,9 @@
     viewnior
     wget
    
+    unrar
+    octaveFull
+
     # Compiler toolchain (nvim was asking for c compiler)
     gcc
     gnumake

@@ -91,6 +91,7 @@
      kitty
      haskell-language-server
      xmobar
+     pavucontrol
      ];
 
   ######################
