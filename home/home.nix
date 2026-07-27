@@ -28,9 +28,12 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-
-    windsurf
-
+    
+    # some programs from academic video
+    onlyoffice-bin
+    typst
+    blanket
+    
     siyuan
 
     qbittorrent
