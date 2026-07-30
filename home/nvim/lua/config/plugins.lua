@@ -30,10 +30,21 @@ require("lazy").setup({
   },
 
   -- Treesitter (syntax/indent/highlight)
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",
+  { "nvim-treesitter/nvim-treesitter", branch = "master", build = ":TSUpdate",
     config = function()
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      parser_config.baml = {
+        install_info = {
+          url = "https://github.com/BoundaryML/baml-treesitter",
+          files = { "src/parser.c" },
+          branch = "main",
+        },
+        filetype = "baml",
+      }
+      vim.filetype.add({ extension = { baml = "baml" } })
+
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r", "rnoweb", "yaml", "ocaml", "ocaml_interface" },
+        ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r", "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml" },
         highlight = { enable = true },
         indent = { enable = true },
       })

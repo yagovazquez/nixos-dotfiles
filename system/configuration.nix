@@ -74,7 +74,7 @@
   users.users.agallas = {
     isNormalUser = true;
     description = "agallas";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" ];
     shell = pkgs.zsh;
     packages = with pkgs; [];
   };
@@ -93,6 +93,13 @@
      xmobar
      pavucontrol
      ];
+
+  #######################
+  # For the ESP32 usage #
+  #######################
+
+  services.udev.packages = with pkgs; [ platformio-core.udev ];
+
 
   ######################
   # Wayland + Hyprland #

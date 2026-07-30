@@ -44,3 +44,8 @@ setup_if_present("nixd")
 setup_if_present("clangd")
 setup_if_present("texlab")
 setup_if_present("ocamllsp")
+setup_if_present("baml_ls", {
+  cmd = { "baml-cli", "lsp" },
+  filetypes = { "baml" },
+  root_markers = { "baml_src", "pyproject.toml", "flake.nix", ".git" },
+})
