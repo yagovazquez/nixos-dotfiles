@@ -12,7 +12,7 @@
     ./ghostty.nix
     ./helix.nix
     ./languages/python.nix
-    ./languages/R.nix
+    # ./languages/R.nix
     ./languages/ocaml.nix
     ./languages/nodejs.nix
   ];

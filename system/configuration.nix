@@ -23,6 +23,9 @@
     wireplumber.enable = true;
   };
 
+  # Garbage automatic collection
+  nix.gc.automatic = true;
+  nix.gc.dates = "03:15";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -99,6 +102,7 @@
   #######################
 
   services.udev.packages = with pkgs; [ platformio-core.udev ];
+  programs.nix-ld.enable = true;
 
 
   ######################
