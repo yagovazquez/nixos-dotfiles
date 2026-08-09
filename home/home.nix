@@ -29,6 +29,14 @@
 
   home.packages = with pkgs; [
     
+    #minecraft
+    prismlauncher
+    temurin-bin
+    openjdk24
+    jdk_headless
+    jdk24
+    
+
     # some programs from academic video
     onlyoffice-bin
     typst

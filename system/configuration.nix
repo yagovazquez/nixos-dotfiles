@@ -95,6 +95,7 @@
      haskell-language-server
      xmobar
      pavucontrol
+
      ];
 
   #######################
@@ -149,6 +150,7 @@
     enable = true;
     enableContribAndExtras = true;
   };
+
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
