@@ -29,6 +29,7 @@
 
   home.packages = with pkgs; [
     
+    udisks2
     #minecraft
     prismlauncher
     temurin-bin
