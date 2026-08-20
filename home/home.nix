@@ -32,9 +32,6 @@
     udisks2
     #minecraft
     prismlauncher
-    temurin-bin
-    openjdk24
-    jdk_headless
     jdk24
     
 
