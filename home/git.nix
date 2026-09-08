@@ -4,9 +4,12 @@
 
   programs.git = {
     enable = true;
-    userName = "yago";
-    userEmail = "vazquezsanchezyago@gmail.com";
-    extraConfig = { init.defaultBranch = "main"; pull.rebase = true; };
+    settings = {
+      user.Name = "yago";
+      user.Email = "vazquezsanchezyago@gmail.com";
+      init.defaultBranch = "main";
+      pull.rebase = true;
+    };
   };
   programs.gh.enable = true;
 

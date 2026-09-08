@@ -4,6 +4,7 @@
 
 programs.firefox = {
   enable = true;
+  configPath = ".mozilla/firefox";
   profiles."3z7tqry0.default" = {
     isDefault = true;
 

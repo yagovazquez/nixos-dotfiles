@@ -7,17 +7,9 @@ let
     notebook
     numpy
     pandas
-    torch
     scikit-learn
     matplotlib
-    yfinance
-    tqdm
-    z3
     manim
-    seaborn
-    openpyxl
-    statsmodels
-    ipywidgets
   ]);
 in
 {

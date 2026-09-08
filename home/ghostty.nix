@@ -17,7 +17,7 @@
       window-decoration = "none";
       background-blur = false;
       #theme = "nord";
-      theme = "tokyonight_moon";
+      theme = "TokyoNight Moon";
       #keybind = [];
     };
   };

@@ -14,7 +14,6 @@
     ./languages/python.nix
     # ./languages/R.nix
     ./languages/ocaml.nix
-    ./languages/nodejs.nix
   ];
 
   home.username = "agallas";
@@ -32,18 +31,18 @@
     udisks2
     #minecraft
     prismlauncher
-    jdk24
+    jdk25
     
 
     # some programs from academic video
-    onlyoffice-bin
+    onlyoffice-desktopeditors
     typst
     blanket
     
     siyuan
 
     qbittorrent
-    stremio
+    stremio-linux-shell
 
     ffmpeg
 
@@ -56,8 +55,6 @@
 
     yazi
 
-    jetbrains.idea-community  #java ide
-    jetbrains.pycharm-community
     sdcv  #dictionary
 
     discord
@@ -122,8 +119,7 @@
     brightnessctl
     pamixer
     mpv
-    rofi-wayland
-    neofetch
+    rofi
     fastfetch
     
     # Sway enviroment extras
@@ -162,6 +158,7 @@
         gtk-application-prefer-dark-theme=1
       '';
     };
+    gtk4.theme = config.gtk.theme;
   };
   dconf.settings = {
     "org/gnome/desktop/interface" = {
