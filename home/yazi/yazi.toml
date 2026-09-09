@@ -1,0 +1,13 @@
+[opener]
+zathura = [
+  { run = 'zathura "$@"', orphan = true, desc = "Zathura" }
+]
+viewnior = [
+  { run = 'viewnior "$@"', orphan = true, desc = "Viewnior" }
+]
+
+[open]
+prepend_rules = [
+  { mime = "application/pdf", use = "zathura" },
+  { mime = "image/*", use = "viewnior" }
+]
