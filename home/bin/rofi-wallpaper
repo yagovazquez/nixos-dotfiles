@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+CHOICE=$(ls "$WALLPAPER_DIR" | rofi -dmenu -i -p "Wallpaper")
+
+if [ -n "$CHOICE" ]; then
+    # Matar hyprpaper si ya estaba corriendo
+    pkill hyprpaper
+    # Generar config temporal
+    CONFIG="/tmp/hyprpaper.conf"
+    echo "preload = $WALLPAPER_DIR/$CHOICE" > $CONFIG
+    echo "wallpaper = ,$WALLPAPER_DIR/$CHOICE" >> $CONFIG
+    # Lanzar hyprpaper con el nuevo config
+    hyprpaper -c $CONFIG &
+fi

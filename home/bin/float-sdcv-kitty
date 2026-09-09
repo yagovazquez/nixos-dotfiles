@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prompt for a word using rofi
+word="$(rofi -dmenu -p 'Define:' -i -no-fixed-num-lines -lines 0 || true)"
+[ -z "${word:-}" ] && exit 0
+
+# Appearance configuration
+font_size=12.0
+fg_color="#E6E9FF"   # bright white
+bg_color="#222436"   # TokyoNight Moon background
+
+# Correct Hyprland size syntax: "size WIDTH HEIGHT"
+hyprctl dispatch exec "[float; size 900 700; center] kitty \
+  --title sdcv \
+  --override font_size=${font_size} \
+  --override foreground=${fg_color} \
+  --override background=${bg_color} \
+  bash -lc 'sdcv -n --utf8-output \"$word\" | less -R'"
+

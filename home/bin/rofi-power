@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+chosen="$(printf "Block\nSuspend\nLogout\nReboot\nShutdown" | rofi -dmenu -i -p "System")"
+
+case "$chosen" in
+  "Block") swaylock ;;
+  "Suspend") systemctl suspend ;;
+  "Logout") hyprctl dispatch "hl.dsp.exit()" ;;
+  "Reboot") systemctl reboot ;;
+  "Shutdown") systemctl poweroff ;;
+esac
+
