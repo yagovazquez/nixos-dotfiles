@@ -10,11 +10,10 @@ font_size=12.0
 fg_color="#E6E9FF"   # bright white
 bg_color="#222436"   # TokyoNight Moon background
 
-# Correct Hyprland size syntax: "size WIDTH HEIGHT"
-hyprctl dispatch exec "[float; size 900 700; center] kitty \
+# Use Hyprland 0.55+ Lua API dispatcher with raw strings [[ ]]
+hyprctl dispatch "hl.dsp.exec_cmd([[ [float; size 900 700; center] kitty \
   --title sdcv \
   --override font_size=${font_size} \
   --override foreground=${fg_color} \
   --override background=${bg_color} \
-  bash -lc 'sdcv -n --utf8-output \"$word\" | less -R'"
-
+  bash -lc 'sdcv -n --utf8-output \"$word\" | less -R' ]])"
