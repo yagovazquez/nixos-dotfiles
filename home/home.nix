@@ -97,6 +97,7 @@
     # Compiler toolchain (nvim was asking for c compiler)
     gcc
     gnumake
+    gdb
 
     #LSPs 
     nixd                 # nix code corrector (for helix)

@@ -44,7 +44,8 @@ require("lazy").setup({
       vim.filetype.add({ extension = { baml = "baml" } })
 
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r", "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml" },
+        ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r",
+        "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "c++" },
         highlight = { enable = true },
         indent = { enable = true },
       })

@@ -41,7 +41,22 @@ setup_if_present("yamlls")
 setup_if_present("html")
 setup_if_present("cssls")
 setup_if_present("nixd")
-setup_if_present("clangd")
+setup_if_present("clangd", {
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=iwyu",
+    "--completion-style=detailed",
+    "--function-arg-placeholders",
+    "--fallback-style=llvm",
+  },
+  init_options = {
+    usePlaceholders = true,
+    completeUnimported = true,
+    clangdFileStatus = true,
+  },
+})
 setup_if_present("texlab")
 setup_if_present("ocamllsp")
 setup_if_present("baml_ls", {
