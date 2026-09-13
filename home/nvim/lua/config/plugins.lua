@@ -1,13 +1,36 @@
 -- Plugin list (lazy.nvim)
+local colorscheme_names = { "tokyonight", "catppuccin", "rose-pine", "gruvbox" }
+
 require("lazy").setup({
   -- place lazy's lockfile in a writable XDG data directory on NixOS
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
-  -- Theme: tokyonight (moon)
+
+  -- Theme: Tokyo Night (moon) - default
   { "folke/tokyonight.nvim", lazy = false, priority = 1000,
     opts = { style = "moon", transparent = false },
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd.colorscheme("tokyonight")
+    end
+  },
+
+  -- Alternate themes for quick switching
+  { "catppuccin/nvim", name = "catppuccin", lazy = true,
+    opts = { flavour = "mocha" },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+    end
+  },
+  { "rose-pine/neovim", name = "rose-pine", lazy = true,
+    opts = { variant = "moon" },
+    config = function(_, opts)
+      require("rose-pine").setup(opts)
+    end
+  },
+  { "ellisonleao/gruvbox.nvim", lazy = true,
+    opts = { contrast = "soft" },
+    config = function(_, opts)
+      require("gruvbox").setup(opts)
     end
   },
 
@@ -45,7 +68,7 @@ require("lazy").setup({
 
       require("nvim-treesitter.configs").setup({
         ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r",
-        "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "c++" },
+        "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "cpp" },
         highlight = { enable = true },
         indent = { enable = true },
       })

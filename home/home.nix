@@ -29,10 +29,13 @@
   home.packages = with pkgs; [
     
     udisks2
+
     #minecraft
     prismlauncher
     jdk25
     
+    guix
+    emacs
 
     # some programs from academic video
     onlyoffice-desktopeditors

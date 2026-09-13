@@ -4,9 +4,9 @@
   programs.ghostty = {
     enable = true;
     settings = {
-      #font-family = "Inconsolata Nerd Font Mono";
-      font-family = "MxPlus IBM VGA 9x16";
-      font-size = 12;
+      font-family = "Inconsolata Nerd Font Mono";
+      #font-family = "MxPlus IBM VGA 9x16";
+      font-size = 14;
       #background-opacity = 0.9; #i control it through hyprland
       gtk-titlebar = false;
       resize-overlay = "never";
