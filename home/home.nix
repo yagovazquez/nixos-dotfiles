@@ -10,6 +10,7 @@
     ./ranger/ranger.nix
     ./zathura.nix
     ./ghostty.nix
+    ./emacs.nix
     ./helix.nix
     ./languages/python.nix
     # ./languages/R.nix
@@ -35,7 +36,6 @@
     jdk25
     
     guix
-    emacs
 
     # some programs from academic video
     onlyoffice-desktopeditors
