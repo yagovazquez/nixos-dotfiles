@@ -29,6 +29,7 @@
 
   home.packages = with pkgs; [
     
+    thunar
     udisks2
 
     #minecraft
@@ -145,22 +146,20 @@
       package = null;       
     };
     theme = {
-      name = "Catppuccin-Mocha-Dark";
-      package = pkgs.gnome-themes-extra;
+      name = "Tokyonight-Dark";
+      package = pkgs.tokyonight-gtk-theme;
     };
     font = {
-      name = "Noto Sans";
+      #name = "Noto Sans";
+      name = "MxPlus IBM VGA 9x16";
       size = 11;
     };
+    colorScheme = "dark";
     gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+      gtk-application-prefer-dark-theme = 1;
     };
     gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+      gtk-application-prefer-dark-theme = 1;
     };
     gtk4.theme = config.gtk.theme;
   };
