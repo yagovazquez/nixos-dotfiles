@@ -12,7 +12,7 @@ hl.monitor({ output = "desc:AOC 24G2W1G4 0x00009CC8", mode = "preferred", positi
 --- MY PROGRAMS ---
 ---------------------
 local terminal = "ghostty"
-local fileManager = "dolphin"
+local fileManager = "thunar"
 local fileManagerTerminal = "kitty yazi"
 local menu = "rofi -show drun"
 local browser = "qutebrowser"

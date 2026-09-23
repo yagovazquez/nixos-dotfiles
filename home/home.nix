@@ -12,6 +12,7 @@
     ./ghostty.nix
     ./emacs.nix
     ./helix.nix
+    ./gtk.nix
     ./languages/python.nix
     # ./languages/R.nix
     ./languages/ocaml.nix
@@ -28,21 +29,19 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    
-    thunar
     udisks2
 
     #minecraft
     prismlauncher
     jdk25
-    
+
     guix
 
     # some programs from academic video
     onlyoffice-desktopeditors
     typst
     blanket
-    
+
     siyuan
 
     qbittorrent
@@ -67,19 +66,12 @@
     obsidian             #note taking
     anki-bin             #flash cards
     vscode               # graphic code editor
-    
 
-    # Claude Code Wrapper
-    # We use npx here because Claude Code actively refuses to run if it is even slightly outdated.
-    # This hermetic script isolates the nodejs version and always guarantees the latest patch.
-    (writeShellScriptBin "claude" ''
-      export PATH="${nodejs}/bin:$PATH"
-      exec npx -y @anthropic-ai/claude-code@latest "$@"
-    '')
+    code-cursor
 
     # Images edition
     gimp
-    
+
     # File manager
     kdePackages.dolphin
     ueberzugpp           # image previews in terminal
@@ -94,7 +86,7 @@
     imagemagick          # image edition
     viewnior
     wget
-   
+
     unrar
     octaveFull
 
@@ -103,7 +95,7 @@
     gnumake
     gdb
 
-    #LSPs 
+    # LSPs
     nixd                 # nix code corrector (for helix)
     lua-language-server
     pyright
@@ -115,7 +107,7 @@
 
     # Zathura stuff
     girara
-    gtk3    
+    gtk3
 
     # Screen recorder
     obs-studio
@@ -126,7 +118,7 @@
     mpv
     rofi
     fastfetch
-    
+
     # Sway enviroment extras
     swaybg
 
@@ -136,41 +128,7 @@
     hyprlock
     hyprshot
     hyprsunset
-
   ];
-
-  gtk = {
-    enable = true;
-    iconTheme = {
-      name = "NineIcons";   
-      package = null;       
-    };
-    theme = {
-      name = "Tokyonight-Dark";
-      package = pkgs.tokyonight-gtk-theme;
-    };
-    font = {
-      #name = "Noto Sans";
-      name = "MxPlus IBM VGA 9x16";
-      size = 11;
-    };
-    colorScheme = "dark";
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.theme = config.gtk.theme;
-  };
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-  };
-
-  home.file = {
-  };
 
   home.sessionVariables = {
     EDITOR = "nvim";
