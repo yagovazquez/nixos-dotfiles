@@ -1,0 +1,12 @@
+_build/
+.direnv/
+*.install
+.merlin
+*.exe
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.a
+*.cmxa
+*.cma

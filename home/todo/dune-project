@@ -1,0 +1,10 @@
+(lang dune 3.0)
+(name todo)
+(version 0.1.0)
+
+(generate_opam_files false)
+
+(package
+ (name todo)
+ (synopsis "A simple command-line todo list")
+ (depends ocaml dune))
