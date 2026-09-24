@@ -68,8 +68,13 @@ require("lazy").setup({
 
       require("nvim-treesitter.configs").setup({
         ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r",
-        "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "cpp" },
-        highlight = { enable = true },
+        "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "cpp",
+        "latex", "bibtex" },
+        -- VimTeX owns LaTeX syntax; treesitter highlight fights it on .tex buffers
+        highlight = {
+          enable = true,
+          disable = { "latex" },
+        },
         indent = { enable = true },
       })
     end
@@ -113,6 +118,32 @@ require("lazy").setup({
   -- LSP base
   { "neovim/nvim-lspconfig" },
 
+  -- LaTeX: compile, SyncTeX ↔ Zathura, motions, conceals, TOC
+  { "lervag/vimtex",
+    lazy = false,
+    dependencies = { "micangl/cmp-vimtex" },
+    init = function()
+      vim.g.vimtex_view_method = "zathura"
+      vim.g.vimtex_view_forward_search_on_start = false
+      vim.g.vimtex_compiler_method = "latexmk"
+      vim.g.vimtex_compiler_latexmk = {
+        aux_dir = ".texout",
+        out_dir = ".",
+        options = {
+          "-verbose",
+          "-file-line-error",
+          "-synctex=1",
+          "-interaction=nonstopmode",
+        },
+      }
+      -- Quickfix window for latexmk / chktex messages
+      vim.g.vimtex_quickfix_mode = 1
+      vim.g.vimtex_syntax_enabled = 1
+      -- Folding via VimTeX (optional; keep light)
+      vim.g.vimtex_fold_enabled = false
+    end,
+  },
+
   -- Completion (nvim-cmp)
   { "hrsh7th/nvim-cmp",
     dependencies = {
@@ -122,6 +153,7 @@ require("lazy").setup({
       "saadparwaiz1/cmp_luasnip",
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
+      "micangl/cmp-vimtex",
     },
     config = function()
       local ok, cmp = pcall(require, "cmp")
@@ -156,6 +188,17 @@ require("lazy").setup({
         sources = {
           { name = "nvim_lsp" },
           { name = "luasnip"  },
+          { name = "path" },
+        },
+      })
+
+      -- Richer completions inside .tex buffers (VimTeX + path)
+      cmp.setup.filetype({ "tex", "plaintex", "latex" }, {
+        sources = {
+          { name = "vimtex" },
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "path" },
         },
       })
 

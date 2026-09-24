@@ -57,7 +57,31 @@ setup_if_present("clangd", {
     clangdFileStatus = true,
   },
 })
-setup_if_present("texlab")
+setup_if_present("texlab", {
+  settings = {
+    texlab = {
+      -- VimTeX owns compile/view; texlab provides LSP completion + diagnostics
+      build = {
+        executable = "latexmk",
+        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+        onSave = false,
+        forwardSearchAfter = false,
+      },
+      forwardSearch = {
+        executable = "zathura",
+        args = { "--synctex-forward", "%l:1:%f", "%p" },
+      },
+      chktex = {
+        onOpenAndSave = true,
+        onEdit = false,
+      },
+      latexFormatter = "latexindent",
+      latexindent = {
+        modifyLineBreaks = false,
+      },
+    },
+  },
+})
 setup_if_present("ocamllsp")
 setup_if_present("baml_ls", {
   cmd = { "baml-cli", "lsp" },

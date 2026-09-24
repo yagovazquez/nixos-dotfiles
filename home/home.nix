@@ -16,6 +16,7 @@
     ./languages/python.nix
     # ./languages/R.nix
     ./languages/ocaml.nix
+    ./languages/latex.nix
   ];
 
   home.username = "agallas";

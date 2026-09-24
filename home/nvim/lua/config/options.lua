@@ -1,6 +1,7 @@
 -- Core editor options (moved from init.lua)
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- Backslash localleader: VimTeX maps (\\ll compile, \\lv view, …) need a free key
+vim.g.maplocalleader = "\\"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
