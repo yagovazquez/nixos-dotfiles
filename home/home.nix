@@ -38,6 +38,8 @@
 
     guix
 
+    vis
+
     # some programs from academic video
     onlyoffice-desktopeditors
     typst

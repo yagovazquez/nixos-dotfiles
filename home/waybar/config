@@ -1,7 +1,7 @@
 {
 
-  //"position": "top",
-  "position": "bottom",
+  "position": "top",
+  //"position": "bottom",
   "layer": "top",
   "height": 15,
   "spacing": 4,
