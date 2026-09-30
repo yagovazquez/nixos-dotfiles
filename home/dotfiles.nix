@@ -5,6 +5,9 @@
   # Neovim
   xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/nvim";
 
+  # Vis
+  xdg.configFile."vis".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/vis";
+
   # qutebrowser
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
   
