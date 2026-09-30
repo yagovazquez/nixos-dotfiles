@@ -10,12 +10,9 @@
     ./ranger/ranger.nix
     ./zathura.nix
     ./ghostty.nix
-    ./emacs.nix
     ./helix.nix
     ./gtk.nix
     ./languages/python.nix
-    # ./languages/R.nix
-    ./languages/ocaml.nix
     ./languages/latex.nix
   ];
 
@@ -37,6 +34,7 @@
     jdk25
 
     guix
+    tetris
 
     vis
 
