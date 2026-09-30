@@ -89,7 +89,7 @@
      neovim      
      wget
      tree
-     greetd.tuigreet
+     tuigreet
      blueman  # bluetooth
      kitty
      haskell-language-server
