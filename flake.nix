@@ -27,6 +27,7 @@
               
               # Configure Home Manager settings inline
               {
+                home-manager.backupFileExtension = "oldcopy";
                 # Use the system-level nixpkgs instead of instantiating a separate one
                 home-manager.useGlobalPkgs = true;
                 # Install user packages directly to /etc/profiles instead of ~/.nix-profile

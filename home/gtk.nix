@@ -7,11 +7,15 @@
     adwaita-icon-theme   # NineIcons inherits from Adwaita; required for Thunar icons
   ];
 
+  # Install NineIcons so GTK, Thunar, and Rofi can resolve it by name.
+  home.file.".icons/NineIcons".source = ./icons/NineIcons;
+  xdg.dataFile."icons/NineIcons".source = ./icons/NineIcons;
+
   gtk = {
     enable = true;
     iconTheme = {
       name = "NineIcons";
-      package = null; # installed under ~/.icons
+      package = null; # managed via home.file / xdg.dataFile above
     };
     theme = {
       name = "Tokyonight-Dark";
@@ -66,6 +70,7 @@
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
+      icon-theme = "NineIcons";
     };
   };
 }
