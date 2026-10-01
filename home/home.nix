@@ -1,17 +1,16 @@
 { config, pkgs, ... }:
 
 {
-
   imports = [
-    ./sh.nix
-    ./firefox/firefox.nix
-    ./git.nix
-    ./dotfiles.nix
-    ./zathura.nix
-    ./ghostty.nix
-    ./gtk.nix
-    ./languages/python.nix
-    ./languages/latex.nix
+    ./scripts.nix
+    ./programs/sh.nix
+    ./programs/firefox.nix
+    ./programs/git.nix
+    ./programs/zathura.nix
+    ./programs/ghostty.nix
+    ./programs/gtk.nix
+    ./programs/languages/python.nix
+    ./programs/languages/latex.nix
   ];
 
   home.username = "agallas";
@@ -21,7 +20,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 
   home.packages = with pkgs; [
     udisks2
@@ -34,13 +32,6 @@
     tetris
 
     vis
-
-    # some programs from academic video
-    onlyoffice-desktopeditors
-    typst
-    blanket
-
-    siyuan
 
     qbittorrent
     stremio-linux-shell
@@ -86,7 +77,6 @@
     wget
 
     unrar
-    octaveFull
 
     # Compiler toolchain (nvim was asking for c compiler)
     gcc
@@ -117,9 +107,6 @@
     rofi
     fastfetch
 
-    # Sway enviroment extras
-    swaybg
-
     # Hyprland enviroment extras
     waybar
     hyprpaper
@@ -132,4 +119,33 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
+
+  # --- Dotfiles / native app configs ---
+
+  # Neovim (out-of-store for live editing)
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/configs/nvim";
+
+  # Vis (out-of-store for live editing)
+  xdg.configFile."vis".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/configs/vis";
+
+  # qutebrowser
+  home.file.".config/qutebrowser/config.py".source = ./configs/qutebrowser/config.py;
+
+  # Yazi
+  home.file.".config/yazi/yazi.toml".source = ./configs/yazi/yazi.toml;
+
+  # Hyprland
+  home.file.".config/hypr/hyprpaper.conf".source = ./configs/hypr/hyprpaper.conf;
+  #home.file.".config/hypr/hyprland.conf".source = ./configs/hypr/hyprland.conf;
+  home.file.".config/hypr/hyprland.lua".source = ./configs/hypr/hyprland.lua;
+
+  xdg.configFile."waybar".source = ./configs/waybar;
+
+  # Niri
+  xdg.configFile."niri".source = ./configs/niri;
+
+  # Rofi
+  xdg.configFile."rofi".source = ./configs/rofi;
 }

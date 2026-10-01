@@ -159,15 +159,15 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(noteTaking))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("anki"))
 
--- Custom Scripts
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("~/nix-config/home/bin/rofi-power"))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/nix-config/home/bin/rofi-wallpaper"))
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("~/nix-config/home/bin/float-sdcv-kitty"))
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("~/nix-config/home/bin/rofi-newfile.sh"))
+-- Custom Scripts (from home.packages via scripts.nix)
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("rofi-power"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("rofi-wallpaper"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("float-sdcv-kitty"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("rofi-newfile"))
 
 -- Timer controls
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/nix-config/home/waybar/waybar-timer.sh toggle && pkill -RTMIN+5 waybar"))
-hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/nix-config/home/waybar/waybar-timer.sh reset && pkill -RTMIN+5 waybar"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh toggle && pkill -RTMIN+5 waybar"))
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh reset && pkill -RTMIN+5 waybar"))
 
 -- Screen Filter
 hl.bind(mainMod .. " + F9", hl.dsp.exec_cmd("hyprsunset --temperature 4500"))

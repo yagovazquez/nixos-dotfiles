@@ -5,8 +5,8 @@ config.load_autoconfig(False)
 c.colors.webpage.darkmode.enabled = False
 
 # Open this page on new tabs
-c.url.default_page = "file:///home/agallas/nix-config/home/firefox/startpage/index.html"
-c.url.start_pages = ["file:///home/agallas/nix-config/home/firefox/startpage/index.html"]
+c.url.default_page = "file:///home/agallas/nix-config/home/configs/firefox/startpage/index.html"
+c.url.start_pages = ["file:///home/agallas/nix-config/home/configs/firefox/startpage/index.html"]
 
 
 c.url.searchengines = {

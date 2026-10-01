@@ -39,7 +39,7 @@
   },
 
   "custom/timer": {
-    "exec": "~/nix-config/home/waybar/waybar-timer.sh print",
+    "exec": "~/nix-config/home/configs/waybar/waybar-timer.sh print",
     "return-type": "plain",
     "interval": 1,
     "signal": 5,
