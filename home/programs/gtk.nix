@@ -1,82 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  nineIcons = pkgs.stdenvNoCC.mkDerivation {
-    pname = "nineicons";
-    version = "0-unstable-2026-10-01";
-    src = pkgs.fetchFromGitHub {
-      owner = "yagovazquez";
-      repo = "icons";
-      rev = "34642a0d3ddb5212ba80613b1540a40c92e8d9b6";
-      hash = "sha256-hflTZsHo5H+oitZ7pK7TWq3aRqZ92yMoRRg65UH1NDw=";
-    };
-    nativeBuildInputs = [ pkgs.gtk3 pkgs.file ];
-    dontBuild = true;
-    installPhase = ''
-      runHook preInstall
-
-      themeDir=$out/share/icons/NineIcons
-      mkdir -p $out/share/icons
-      cp -r NineIcons "$themeDir"
-      chmod -R u+w "$themeDir"
-
-      # Drop non-PNG "png" files (ICO/garbage) — they invalidate the icon cache.
-      find "$themeDir" -type f -name '*.png' -print0 | while IFS= read -r -d "" f; do
-        ft=$(file -b "$f")
-        case "$ft" in
-          'PNG image'*) ;;
-          *) rm -f "$f" ;;
-        esac
-      done
-
-      # Filenames with spaces also make gtk-update-icon-cache fail.
-      find "$themeDir" -name '* *' -delete
-
-      # Upstream index.theme lists many directories that are not shipped.
-      dirs=$(
-        find "$themeDir" -mindepth 2 -maxdepth 2 -type d \
-          | sed "s|^$themeDir/||" \
-          | sort \
-          | paste -sd, -
-      )
-
-      {
-        echo '[Icon Theme]'
-        echo 'Name=NineIcons'
-        echo 'Comment=A modern theme for a Cop Land'
-        echo 'Inherits=Adwaita,hicolor'
-        echo "Directories=$dirs"
-        echo
-
-        find "$themeDir" -mindepth 2 -maxdepth 2 -type d \
-          | sed "s|^$themeDir/||" \
-          | sort \
-          | while IFS= read -r d; do
-              size=''${d##*/}
-              context=''${d%/*}
-              case "$context" in
-                actions) ctx=Actions ;;
-                apps) ctx=Applications ;;
-                categories) ctx=Categories ;;
-                devices) ctx=Devices ;;
-                mimes) ctx=MimeTypes ;;
-                places) ctx=Places ;;
-                *) ctx=Applications ;;
-              esac
-              echo "[$d]"
-              echo "Size=$size"
-              echo "Context=$ctx"
-              echo 'Type=Fixed'
-              echo
-            done
-      } > "$themeDir/index.theme"
-
-      gtk-update-icon-cache -f "$themeDir"
-
-      runHook postInstall
-    '';
-  };
-in
 {
   home.packages = with pkgs; [
     thunar
@@ -84,11 +7,14 @@ in
     adwaita-icon-theme   # NineIcons inherits from Adwaita; required for Thunar icons
   ];
 
+  # Declarative icon theme (no reliance on unmanaged ~/.icons)
+  #home.file.".icons/NineIcons".source = ../icons/NineIcons;
+
   gtk = {
     enable = true;
     iconTheme = {
       name = "NineIcons";
-      package = nineIcons;
+      package = null;
     };
     theme = {
       name = "Tokyonight-Dark";
