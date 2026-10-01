@@ -7,10 +7,8 @@
     ./firefox/firefox.nix
     ./git.nix
     ./dotfiles.nix
-    ./ranger/ranger.nix
     ./zathura.nix
     ./ghostty.nix
-    ./helix.nix
     ./gtk.nix
     ./languages/python.nix
     ./languages/latex.nix
