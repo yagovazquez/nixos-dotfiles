@@ -116,8 +116,8 @@
   ];
 
   home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+    EDITOR = "vis";
+    VISUAL = "vis";
   };
 
   # --- Dotfiles / native app configs ---

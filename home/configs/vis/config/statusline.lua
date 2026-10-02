@@ -1,94 +1,144 @@
--- Lualine-inspired statusline: whole bar recolors by mode (Tokyo Night moon).
+-- Mode-colored statusline + / search match index (current/total).
 
-local modes = {
+local mode_styles = {
+	[vis.modes.NORMAL] = 'fore:#1b1d2b,back:#82aaff,bold',
+	[vis.modes.INSERT] = 'fore:#1b1d2b,back:#c099ff,bold',
+	[vis.modes.REPLACE] = 'fore:#1b1d2b,back:#ff757f,bold',
+	[vis.modes.VISUAL] = 'fore:#1b1d2b,back:#c3e88d,bold',
+	[vis.modes.VISUAL_LINE] = 'fore:#1b1d2b,back:#c3e88d,bold',
+	[vis.modes.OPERATOR_PENDING] = 'fore:#1b1d2b,back:#86e1fc,bold',
+}
+
+local mode_labels = {
 	[vis.modes.NORMAL] = 'NORMAL',
-	[vis.modes.OPERATOR_PENDING] = 'OP',
+	[vis.modes.OPERATOR_PENDING] = '',
 	[vis.modes.VISUAL] = 'VISUAL',
-	[vis.modes.VISUAL_LINE] = 'V-LINE',
+	[vis.modes.VISUAL_LINE] = 'VISUAL-LINE',
 	[vis.modes.INSERT] = 'INSERT',
 	[vis.modes.REPLACE] = 'REPLACE',
 }
 
--- Whole-bar colors (like lualine mode section, applied to the full statusline)
-local mode_styles = {
-	[vis.modes.NORMAL] = 'fore:#1b1d2b,back:#82aaff,bold',
-	[vis.modes.INSERT] = 'fore:#1b1d2b,back:#c3e88d,bold',
-	[vis.modes.REPLACE] = 'fore:#1b1d2b,back:#ff757f,bold',
-	[vis.modes.VISUAL] = 'fore:#1b1d2b,back:#c099ff,bold',
-	[vis.modes.VISUAL_LINE] = 'fore:#1b1d2b,back:#c099ff,bold',
-	[vis.modes.OPERATOR_PENDING] = 'fore:#1b1d2b,back:#86e1fc,bold',
-}
-
 local unfocused_style = 'fore:#828bb8,back:#1e2030'
 
-local function basename(path)
-	if not path then return '[No Name]' end
-	return path:match('([^/]+)$') or path
+-- Cache match positions: invalidated when pattern/file changes
+local cache = {
+	key = nil,
+	starts = {}, -- 0-based byte offsets
+}
+
+local function search_pattern()
+	local reg = vis.registers['/']
+	if not reg then return nil end
+	local pat = reg[1]
+	if type(pat) ~= 'string' then return nil end
+	-- register_put0 stores strlen+1, so Lua strings include a trailing '\0'
+	pat = pat:gsub('%z', '')
+	if pat == '' then return nil end
+	return pat
 end
 
-local function diagnostic_summary(path)
-	local ok, plug = pcall(require, 'plugins/vis-plug')
-	if not ok or not plug.plugins or not plug.plugins.lspc then return nil end
-	local lspc = plug.plugins.lspc
-	if not path or not lspc.open_files then return nil end
-	local file = lspc.open_files[path]
-	if not file or not file.diagnostics then return nil end
+local function shell_quote(s)
+	return "'" .. s:gsub("'", "'\\''") .. "'"
+end
 
-	local counts = { error = 0, warning = 0, information = 0, hint = 0 }
-	local severity_name = { 'error', 'warning', 'information', 'hint' }
+local function looks_like_regex(pattern)
+	return pattern:find('[\\.*+?^$()%[%]|{}]') ~= nil
+end
 
-	for _, diags in pairs(file.diagnostics) do
-		for _, d in ipairs(diags) do
-			local name = severity_name[d.severity or 1] or 'hint'
-			counts[name] = counts[name] + 1
+local function collect_matches(file, content, pattern)
+	local starts = {}
+
+	if looks_like_regex(pattern) then
+		-- Approximate vis regex with grep -E; byte offsets via -b -o
+		local cmd = 'grep -bo -E ' .. shell_quote(pattern) .. ' || true'
+		local _, out = vis:pipe(file, { start = 0, finish = file.size }, cmd)
+		if out and out ~= '' then
+			for offset in out:gmatch('(%d+):') do
+				starts[#starts + 1] = tonumber(offset)
+			end
 		end
+		return starts
 	end
 
-	local parts = {}
-	if counts.error > 0 then table.insert(parts, 'E:' .. counts.error) end
-	if counts.warning > 0 then table.insert(parts, 'W:' .. counts.warning) end
-	if counts.information > 0 then table.insert(parts, 'I:' .. counts.information) end
-	if counts.hint > 0 then table.insert(parts, 'H:' .. counts.hint) end
-	if #parts == 0 then return nil end
-	return table.concat(parts, ' ')
+	-- Literal count (covers /word, *, #)
+	local pos = 1
+	while true do
+		local s = content:find(pattern, pos, true)
+		if not s then break end
+		starts[#starts + 1] = s - 1
+		pos = s + 1
+	end
+	return starts
 end
 
-local function apply_mode_color(win)
-	if vis.win == win then
-		local style = mode_styles[vis.mode] or mode_styles[vis.modes.NORMAL]
-		win:style_define(win.STYLE_STATUS_FOCUSED, style)
-		-- Keep inactive-looking STYLE_STATUS in sync so brief focus blips look right
-		win:style_define(win.STYLE_STATUS, style)
-	else
-		win:style_define(win.STYLE_STATUS, unfocused_style)
-		win:style_define(win.STYLE_STATUS_FOCUSED, unfocused_style)
+local function match_info(win)
+	local pattern = search_pattern()
+	if not pattern then return nil end
+
+	local file = win.file
+	-- Skip huge files to keep the statusline snappy
+	if file.size > 2 * 1024 * 1024 then return nil end
+
+	local key = string.format('%s\0%d\0%s\0%s',
+		file.path or file.name or '',
+		file.size,
+		tostring(file.modified),
+		pattern)
+
+	if cache.key ~= key then
+		local content = file:content(0, file.size)
+		cache.key = key
+		cache.starts = collect_matches(file, content, pattern)
+	end
+
+	local total = #cache.starts
+	if total == 0 then return nil end
+
+	local cursor = win.selection.pos or 0
+	local current = 0
+	for i, start in ipairs(cache.starts) do
+		if start <= cursor then
+			current = i
+		else
+			break
+		end
+	end
+	if current == 0 then current = 1 end
+
+	return string.format('%d/%d', current, total)
+end
+
+local function paint_status(win, style)
+	win:style_define(win.STYLE_STATUS_FOCUSED, style)
+	win:style_define(win.STYLE_STATUS, style)
+	local y = win.height - 1
+	local id = win.STYLE_STATUS_FOCUSED
+	for x = 0, win.width - 1 do
+		win:style_pos(id, x, y)
 	end
 end
 
 vis.events.subscribe(vis.events.WIN_STATUS, function(win)
-	apply_mode_color(win)
+	local focused = (win == vis.win)
+	local style = focused
+		and (mode_styles[vis.mode] or mode_styles[vis.modes.NORMAL])
+		or unfocused_style
+	paint_status(win, style)
 
 	local file = win.file
 	local sel = win.selection
 	local left, right = {}, {}
 
-	if vis.win == win then
-		table.insert(left, modes[vis.mode] or '')
+	if focused then
+		local label = mode_labels[vis.mode]
+		if label and label ~= '' then
+			table.insert(left, label)
+		end
 	end
 
-	local name = basename(file.name)
-	if file.modified then name = name .. '[+]' end
-	if vis.recording then name = name .. ' @' end
-	table.insert(left, name)
-
-	if win.syntax then
-		table.insert(left, win.syntax)
-	end
-
-	local diags = diagnostic_summary(file.path)
-	if diags then
-		table.insert(left, diags)
-	end
+	table.insert(left, (file.name or '[No Name]')
+		.. (file.modified and ' [+]' or '')
+		.. (vis.recording and ' @' or ''))
 
 	local keys = vis.input_queue
 	if keys ~= '' then
@@ -97,24 +147,30 @@ vis.events.subscribe(vis.events.WIN_STATUS, function(win)
 		table.insert(right, tostring(vis.count))
 	end
 
+	if focused then
+		local info = match_info(win)
+		if info then
+			table.insert(right, info)
+		end
+	end
+
 	if #win.selections > 1 then
 		table.insert(right, sel.number .. '/' .. #win.selections)
 	end
 
 	local size = file.size
 	local pos = sel.pos or 0
-	local pct = (size == 0) and 0 or math.ceil(pos / size * 100)
-	table.insert(right, pct .. '%')
+	table.insert(right, (size == 0 and '0' or math.ceil(pos / size * 100)) .. '%')
 
 	if not win.large then
-		table.insert(right, sel.line .. ':' .. sel.col)
+		table.insert(right, sel.line .. ', ' .. sel.col)
 		if size > 33554432 or sel.col > 65536 then
 			win.large = true
 		end
 	end
 
 	win:status(
-		' ' .. table.concat(left, '  ') .. ' ',
-		' ' .. table.concat(right, '  ') .. ' '
+		' ' .. table.concat(left, ' » ') .. ' ',
+		' ' .. table.concat(right, ' « ') .. ' '
 	)
 end)

@@ -1,23 +1,31 @@
--- load standard vis module, providing parts of the Lua API
 require('vis')
 
--- Bootstrap vis-plug (plugin manager); plugins install under ~/.cache/vis-plug
-local plug = (function()
-	if not pcall(require, 'plugins/vis-plug') then
-		local conf = (os.getenv('XDG_CONFIG_HOME') or (os.getenv('HOME') .. '/.config')) .. '/vis'
-		os.execute('mkdir -p "' .. conf .. '/plugins" && git clone --quiet https://github.com/erf/vis-plug "' .. conf .. '/plugins/vis-plug"')
-	end
-	return require('plugins/vis-plug')
-end)()
+-- Default theme sets STYLE_CURSOR_LINE to 'underlined'; override after it loads.
+vis.events.subscribe(vis.events.INIT, function()
+	vis.lexers.STYLE_CURSOR_LINE = 'back:#3f3f3f'
+end)
 
-plug.init({
-	-- https://codeberg.org/muhq/vis-lspc
-	{ url = 'https://codeberg.org/muhq/vis-lspc', file = 'init', alias = 'lspc' },
-}, true)
+vis.events.subscribe(vis.events.WIN_OPEN, function(win)
+	vis:command('set numbers')
+	vis:command('set cursorline')
+	--vis:command('set shownewlines')
+	vis:command('set showtabs')
+	vis:command('set tabwidth 4')
+	-- filetype WIN_OPEN runs before this handler, so re-apply the line style here
+	win:style_define(win.STYLE_CURSOR_LINE, vis.lexers.STYLE_CURSOR_LINE)
+end)
 
--- Modular config (same idea as nvim/lua/config/*)
-require('config/options')
-require('config/lsp').setup(plug.plugins.lspc)
+
+--Pluggins
+require('plugins.vis-autoclose')
+
+--Modular config
 require('config/colorizer')
+require('config/lsp')
 require('config/statusline')
-require('config/keymaps')
+require('config/keybind')
+
+-- Nix is not in vis's bundled filetypes (lexer lives in lexers/nix.lua)
+vis.ftdetect.filetypes.nix = {
+	ext = { '%.nix$' },
+}

@@ -102,3 +102,4 @@ vis.events.subscribe(vis.events.WIN_HIGHLIGHT, function(win)
 end)
 
 return M
+
