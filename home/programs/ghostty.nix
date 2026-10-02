@@ -20,8 +20,9 @@
       theme = "TokyoNight Moon";
       # keybind = [];
 	  # background = "#000000"; # pure black
-	  # background = "#1a1b26"; # tokyonight dark
-	  background = "#121212"; # charcoal
+	  background = "#1a1b26"; # tokyonight dark
+	  # background = "#121212"; # charcoal
+	  # background = "#282828"; # charcoal
     };
   };
 }
