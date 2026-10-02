@@ -18,7 +18,10 @@
       background-blur = false;
       #theme = "nord";
       theme = "TokyoNight Moon";
-      #keybind = [];
+      # keybind = [];
+	  # background = "#000000"; # pure black
+	  # background = "#1a1b26"; # tokyonight dark
+	  background = "#121212"; # charcoal
     };
   };
 }
