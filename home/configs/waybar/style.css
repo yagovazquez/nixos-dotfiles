@@ -2,7 +2,8 @@
 
 * {
   font-family: "MxPlus IBM VGA 9x16", monospace;
-  font-size: 11px;
+  /* font-family: "Inconsolata Nerd Font Mono", monospace; */
+  font-size: 13px;
   min-height: 0;
   padding: 0;
   margin: 0;

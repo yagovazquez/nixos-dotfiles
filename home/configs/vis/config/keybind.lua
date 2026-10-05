@@ -4,3 +4,4 @@ require('vis')
 vis:map(vis.modes.NORMAL, 'gx', function()
     vis:feedkeys(':x//<Left>')
 end)
+

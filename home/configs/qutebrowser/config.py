@@ -2,7 +2,7 @@
 config.load_autoconfig(False)
 
 # Force dark interface colors
-c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = True
 
 # Open this page on new tabs
 c.url.default_page = "file:///home/agallas/nix-config/home/configs/firefox/startpage/index.html"
