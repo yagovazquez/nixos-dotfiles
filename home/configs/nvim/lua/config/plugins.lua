@@ -64,12 +64,19 @@ require("lazy").setup({
         },
         filetype = "baml",
       }
-      vim.filetype.add({ extension = { baml = "baml" } })
+      vim.filetype.add({
+        extension = {
+          baml = "baml",
+          -- NASM sources (default Vim often tags .asm as generic "asm")
+          asm = "nasm",
+          nasm = "nasm",
+        },
+      })
 
       require("nvim-treesitter.configs").setup({
         ensure_installed = { "lua", "vim", "bash", "python", "json", "markdown", "r",
         "rnoweb", "yaml", "ocaml", "ocaml_interface", "jinja", "baml", "c", "cpp",
-        "latex", "bibtex" },
+        "latex", "bibtex", "nasm", "asm" },
         -- VimTeX owns LaTeX syntax; treesitter highlight fights it on .tex buffers
         highlight = {
           enable = true,

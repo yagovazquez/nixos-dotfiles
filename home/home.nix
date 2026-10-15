@@ -55,6 +55,9 @@
     # Compiler toolchain (nvim was asking for c compiler)
     gcc gnumake gdb
 
+    # Assembler (NASM) + asm LSP
+    nasm asm-lsp
+
     # LSPs
     nixd lua-language-server pyright bash-language-server yaml-language-server clang-tools texlab
 

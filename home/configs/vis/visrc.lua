@@ -5,25 +5,18 @@ vis.events.subscribe(vis.events.INIT, function()
 	vis.lexers.STYLE_CURSOR_LINE = 'back:#3f3f3f'
 end)
 
-vis.events.subscribe(vis.events.WIN_OPEN, function(win)
-	vis:command('set numbers')
-	vis:command('set cursorline')
-	--vis:command('set shownewlines')
-	vis:command('set showtabs')
-	vis:command('set tabwidth 4')
-	-- filetype WIN_OPEN runs before this handler, so re-apply the line style here
-	win:style_define(win.STYLE_CURSOR_LINE, vis.lexers.STYLE_CURSOR_LINE)
-end)
-
-
---Pluggins
-require('plugins.vis-autoclose')
-
---Modular config
+-- Modular config (order matters for a few things — see comments)
+require('config/options')    -- numbers, tabs, autoindent
+require('config/indent')     -- Enter deepens only inside { }
+require('config/snippets')   -- Tab expands for/while/main/…
+require('config/plugins')    -- vis-plug → vis-lspc
+require('config/lsp')        -- language servers + Ctrl+Space completion
 require('config/colorizer')
-require('config/lsp')
 require('config/statusline')
 require('config/keybind')
+
+-- Local plugins last so their INPUT maps win over anything else
+require('plugins.vis-autoclose')
 
 -- Nix is not in vis's bundled filetypes (lexer lives in lexers/nix.lua)
 vis.ftdetect.filetypes.nix = {

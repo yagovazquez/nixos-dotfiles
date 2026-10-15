@@ -1,6 +1,8 @@
 -- Language servers via vis-lspc
 -- Docs: https://codeberg.org/muhq/vis-lspc
 -- Keys in ls_map are vis *syntax* names (see :set syntax, or filetype plugin).
+--
+-- Completions: Ctrl+Space (or Ctrl+n) in insert/normal → fzf menu of suggestions.
 
 local M = {}
 
@@ -11,7 +13,13 @@ function M.setup(lspc)
 	end
 
 	lspc.autostart = true
-	lspc.menu_cmd = 'fzf'
+	-- fzf if available, otherwise built-in menu
+	if os.execute('command -v fzf >/dev/null 2>&1') == true
+		or os.execute('command -v fzf >/dev/null 2>&1') == 0 then
+		lspc.menu_cmd = 'fzf'
+	else
+		lspc.menu_cmd = 'vis-menu -l 12'
+	end
 	lspc.highlight_diagnostics = 'line'
 	lspc.universal_root_globs = { '.git' }
 	lspc.fallback_dirname_as_root = true
@@ -136,6 +144,10 @@ function M.setup(lspc)
 		formatting_options = fmt(2),
 	}
 end
+
+-- Configure the instance loaded by config/plugins.lua
+local plug = require('config/plugins')
+M.setup(plug.plugins.lspc)
 
 return M
 

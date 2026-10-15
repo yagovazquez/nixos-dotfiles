@@ -30,8 +30,10 @@ local remove = {
 	['``'] = "",
 };
 
-function is_bracket_or_empty(char)
-	return 	char == ' ' or
+local function is_bracket_or_empty(char)
+	-- EOF / empty: file:content may return nil or ""
+	return char == nil or char == '' or
+		char == ' ' or
 		char == '\n' or
 		brackets[char] ~= nil or
 		closed[char] ~= nil

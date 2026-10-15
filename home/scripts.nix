@@ -94,5 +94,58 @@
         fi
       '';
     })
+
+    (pkgs.writeShellApplication {
+      name = "rofi-nixos-update";
+      runtimeInputs = with pkgs; [ rofi hyprland kitty ];
+      text = ''
+        FLAKE="path:/home/agallas/nix-config#nixos"
+        FLAKE_DIR="/home/agallas/nix-config"
+
+        chosen="$(printf '%s\n' \
+          "Update" \
+          "Update + inputs" \
+          "Update inputs only" \
+          "Test" \
+          "List generations" \
+          "Garbage collect" \
+          | rofi -dmenu -i -p "NixOS" -selected-row 0 || true)"
+
+        [ -z "''${chosen:-}" ] && exit 0
+
+        run_in_float() {
+          local script="$1; echo; read -rp 'Press Enter to close...'"
+          hyprctl dispatch "hl.dsp.exec_cmd([[ [float; size 1000 700; center] kitty \
+            --title nixos-update \
+            bash -lc $(printf '%q' "$script") ]])"
+        }
+
+        case "$chosen" in
+          "Update")
+            # Same as the shell `update` alias: rebuild + activate now
+            run_in_float "sudo nixos-rebuild switch --flake \"$FLAKE\""
+            ;;
+          "Update + inputs")
+            # Positional args to `nix flake update` are input names, so use --flake.
+            # No sudo on update so flake.lock stays owned by you.
+            run_in_float "nix flake update --flake \"$FLAKE_DIR\" && sudo nixos-rebuild switch --flake \"$FLAKE\""
+            ;;
+          "Update inputs only")
+            run_in_float "nix flake update --flake \"$FLAKE_DIR\""
+            ;;
+          "Test")
+            # Activate without writing a bootloader entry (easy to revert by reboot)
+            run_in_float "sudo nixos-rebuild test --flake \"$FLAKE\""
+            ;;
+          "List generations")
+            run_in_float "nixos-rebuild list-generations --flake \"$FLAKE\""
+            ;;
+          "Garbage collect")
+            # Drop unreachable store paths / old generations
+            run_in_float "sudo nix-collect-garbage -d"
+            ;;
+        esac
+      '';
+    })
   ];
 }

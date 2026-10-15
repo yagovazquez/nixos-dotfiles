@@ -83,6 +83,12 @@ setup_if_present("texlab", {
   },
 })
 setup_if_present("ocamllsp")
+-- Binary is "asm-lsp"; server id is "asm_lsp"
+setup_if_present("asm_lsp", {
+  cmd = { "asm-lsp" },
+  filetypes = { "asm", "nasm", "vmasm" },
+  root_markers = { ".asm-lsp.toml", ".git" },
+})
 setup_if_present("baml_ls", {
   cmd = { "baml-cli", "lsp" },
   filetypes = { "baml" },

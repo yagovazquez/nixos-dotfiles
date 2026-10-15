@@ -164,6 +164,7 @@ hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("rofi-power"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("rofi-wallpaper"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("float-sdcv-kitty"))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("rofi-newfile"))
+hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("rofi-nixos-update"))
 
 -- Timer controls
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh toggle && pkill -RTMIN+5 waybar"))
