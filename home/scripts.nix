@@ -97,7 +97,7 @@
 
     (pkgs.writeShellApplication {
       name = "rofi-nixos-update";
-      runtimeInputs = with pkgs; [ rofi hyprland kitty git ];
+      runtimeInputs = with pkgs; [ rofi hyprland kitty git gnused ];
       text = ''
         FLAKE="path:/home/agallas/nix-config#nixos"
         FLAKE_DIR="/home/agallas/nix-config"
@@ -112,7 +112,6 @@
         chosen="$(
           {
             entry "Update" "update.png"
-            entry "Update + inputs" "update-inputs.png"
             entry "Update inputs only" "update-inputs-only.png"
             entry "Update git" "update-git.png"
             entry "Test" "test.png"
@@ -130,38 +129,25 @@
             bash -lc $(printf '%q' "$script") ]])"
         }
 
-        # Previous `sudo nix flake update` left flake.lock root-owned.
-        fix_lock='if [ -e "'"$FLAKE_DIR"'/flake.lock" ] && [ ! -w "'"$FLAKE_DIR"'/flake.lock" ]; then sudo chown "$USER:" "'"$FLAKE_DIR"'/flake.lock"; fi'
-
         case "$chosen" in
           "Update")
-            # Same as the shell `update` alias: rebuild + activate now
             run_in_float "sudo nixos-rebuild switch --flake \"$FLAKE\""
             ;;
-          "Update + inputs")
-            # Positional args to `nix flake update` are input names, so use --flake.
-            # No sudo on update so flake.lock stays owned by you.
-            run_in_float "$fix_lock; nix flake update --flake \"$FLAKE_DIR\" && sudo nixos-rebuild switch --flake \"$FLAKE\""
-            ;;
           "Update inputs only")
-            run_in_float "$fix_lock; nix flake update --flake \"$FLAKE_DIR\""
+            run_in_float "nix flake update --flake \"$FLAKE_DIR\""
             ;;
           "Update git")
-            msg="$(rofi -dmenu -i -p 'Commit message' -l 0 <<<"" || true)"
-            msg="''${msg#"''${msg%%[![:space:]]*}"}"
-            msg="''${msg%"''${msg##*[![:space:]]}"}"
+            msg="$(rofi -dmenu -i -p 'Commit message' -l 0 <<<"" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' || true)"
             [ -z "$msg" ] && exit 0
             run_in_float "cd \"$FLAKE_DIR\" && git add . && git commit -m $(printf '%q' "$msg")"
             ;;
           "Test")
-            # Activate without writing a bootloader entry (easy to revert by reboot)
             run_in_float "sudo nixos-rebuild test --flake \"$FLAKE\""
             ;;
           "List generations")
             run_in_float "nixos-rebuild list-generations --flake \"$FLAKE\""
             ;;
           "Garbage collect")
-            # Drop unreachable store paths / old generations
             run_in_float "sudo nix-collect-garbage -d"
             ;;
         esac
