@@ -101,15 +101,24 @@
       text = ''
         FLAKE="path:/home/agallas/nix-config#nixos"
         FLAKE_DIR="/home/agallas/nix-config"
+        # Icons live in configs/rofi/icons (also under ~/.config/rofi/icons after HM)
+        ICON_DIR="${./configs/rofi/icons}"
 
-        chosen="$(printf '%s\n' \
-          "Update" \
-          "Update + inputs" \
-          "Update inputs only" \
-          "Test" \
-          "List generations" \
-          "Garbage collect" \
-          | rofi -dmenu -i -p "NixOS" -selected-row 0 || true)"
+        entry() {
+          # rofi dmenu icon protocol: text\0icon\x1f/path/to/icon.png
+          printf '%s\0icon\x1f%s\n' "$1" "$ICON_DIR/$2"
+        }
+
+        chosen="$(
+          {
+            entry "Update" "update.png"
+            entry "Update + inputs" "update-inputs.png"
+            entry "Update inputs only" "update-inputs-only.png"
+            entry "Test" "test.png"
+            entry "List generations" "list-generations.png"
+            entry "Garbage collect" "garbage-collect.png"
+          } | rofi -dmenu -i -p "NixOS" -show-icons -selected-row 0 || true
+        )"
 
         [ -z "''${chosen:-}" ] && exit 0
 
