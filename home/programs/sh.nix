@@ -28,7 +28,7 @@
         update = "sudo nixos-rebuild switch --flake 'path:/home/agallas/nix-config#nixos'";
         #updatehome-safe = "home-manager switch --flake 'path:/home/agallas/nix-config#agallas'";
         #updatehome = "home-manager switch --flake ~/nix-config#agallas";
-        megaupdate = "sudo nix flake update";
+        megaupdate = "nix flake update --flake /home/agallas/nix-config";
         note = ''nvim ~/Desktop/notes/$(date +"%m-%d_%H:%M").txt'';
         tasks = "cat ~/Desktop/notes/tasks.txt";
         newtask = "nvim ~/Desktop/notes/tasks.txt";
