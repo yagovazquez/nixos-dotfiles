@@ -20,6 +20,13 @@
   padding-top: 2px;
 }
 
+/* Logo (far left) — keep tight so bar height/spacing stay unchanged */
+#image {
+  padding: 0 4px;
+  margin: 0 2px;
+  background: transparent;
+}
+
 /* Workspaces */
 #workspaces button {
   background: transparent;
