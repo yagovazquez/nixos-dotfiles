@@ -24,6 +24,7 @@
   # Programs
   home.packages = with pkgs; [
 	waybar
+    google-chrome
     udisks2
     jdk25				 # minecraft
     tetris
