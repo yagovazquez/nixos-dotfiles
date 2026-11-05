@@ -2,13 +2,14 @@
 
 let
   # === THE ONE SWITCH ===
-  # "personal" = tokyonight-moon with comments/dim text brightened for this
-  # screen. "vanilla" = unmodified tokyonight-moon. Flip and `update` to apply.
+  # "personal" = tokyonight-night with comments brightened for this screen.
+  # "vanilla" = unmodified tokyonight-night. Flip and `update` to apply.
   variant = "personal";
 
   # Plain tokyonight-moon (https://github.com/folke/tokyonight.nvim), as a
-  # base16 scheme. Kept untouched so "vanilla" is always available.
-  vanilla = {
+  # base16 scheme. No longer the active scheme (see `night` below) — kept
+  # around unused as a reference for what "moon" looked like.
+  moon = {
     scheme = "Tokyo Night Moon";
     author = "folke/tokyonight.nvim, adapted to base16";
     slug = "tokyonight-moon";
@@ -30,12 +31,46 @@ let
     base0F = "c53b53"; # rarely used   #c53b53
   };
 
-  # Only touches what was flagged as hard to read on this screen: comments
-  # and other "dim" text (base03/base04). Everything else stays identical
-  # to vanilla tokyonight-moon.
+  # tokyonight-night (https://github.com/folke/tokyonight.nvim), as a base16
+  # scheme — same palette family as moon, but swapped to the "night" accent
+  # set and, for base00, to tokyonight's own `bg_dark` (#16161e, the color it
+  # already uses for sidebars/floats) instead of its main `bg` (#1a1b26).
+  # `bg_dark` is darker and noticeably less blue-saturated than moon's
+  # #222436, while still reading as "tokyonight". base02 is recomputed with
+  # tokyonight's own bg_visual formula (blend #3d59a1 at 40% onto base00) so
+  # selection highlight keeps the same relationship to the background that
+  # moon had. This single swap also raises bg/fg contrast across the board
+  # (checked with WCAG contrast ratios): fg 10.26:1 -> 11.14:1, fg_dark
+  # 4.61:1 -> 8.52:1 (good enough it no longer needs the override below),
+  # comment+override 7.17:1 -> 8.43:1.
+  night = {
+    scheme = "Tokyo Night";
+    author = "folke/tokyonight.nvim, adapted to base16";
+    slug = "tokyonight-night";
+    base00 = "16161e"; # bg (using tokyonight's bg_dark) #16161e
+    base01 = "292e42"; # bg_highlight  #292e42
+    base02 = "263152"; # bg_visual/sel #263152
+    base03 = "565f89"; # comment, dim  #565f89
+    base04 = "a9b1d6"; # fg_dark       #a9b1d6
+    base05 = "c0caf5"; # fg            #c0caf5
+    base06 = "c0caf5"; # light fg      #c0caf5
+    base07 = "cdd5f7"; # lightest fg   #cdd5f7
+    base08 = "f7768e"; # red           #f7768e
+    base09 = "ff9e64"; # orange        #ff9e64
+    base0A = "e0af68"; # yellow        #e0af68
+    base0B = "9ece6a"; # green         #9ece6a
+    base0C = "7dcfff"; # cyan          #7dcfff
+    base0D = "7aa2f7"; # blue          #7aa2f7
+    base0E = "bb9af7"; # magenta/purp  #bb9af7
+    base0F = "db4b4b"; # rarely used   #db4b4b
+  };
+
+  # Brightens comments, the one thing still flagged as hard to read on this
+  # screen against the new, darker base00. fg_dark (base04) doesn't need a
+  # bump here — swapping to bg_dark already pushed its contrast from 4.61:1
+  # to 8.52:1 on its own.
   personalOverride = {
     base03 = "a3b0e0"; # #a3b0e0
-    base04 = "97a4d4"; # #97a4d4
   };
 in
 {
@@ -55,7 +90,7 @@ in
   stylix.autoEnable = false;
   stylix.targets.console.enable = true;
 
-  stylix.base16Scheme = vanilla;
+  stylix.base16Scheme = night;
   stylix.override = if variant == "personal" then personalOverride else { };
 
   stylix.fonts = {
