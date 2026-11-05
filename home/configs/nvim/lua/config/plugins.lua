@@ -6,8 +6,19 @@ require("lazy").setup({
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 
   -- Theme: Tokyo Night (moon) - default
+  -- Comment/dim text brightened when NIX_THEME_VARIANT=personal (set by
+  -- home/theme.nix), matching the same tweak stylix applies system-wide.
   { "folke/tokyonight.nvim", lazy = false, priority = 1000,
-    opts = { style = "moon", transparent = false },
+    opts = {
+      style = "moon",
+      transparent = false,
+      on_colors = function(colors)
+        if vim.env.NIX_THEME_VARIANT == "personal" then
+          colors.comment = "#a3b0e0"
+          colors.fg_dark = "#97a4d4"
+        end
+      end,
+    },
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd.colorscheme("tokyonight")
@@ -109,7 +120,19 @@ require("lazy").setup({
   -- Which-key
   { "folke/which-key.nvim",
     opts = {},
-    config = function(_, opts) require("which-key").setup(opts) end
+    config = function(_, opts)
+      require("which-key").setup(opts)
+      -- Without a group name, which-key collapses multi-key prefixes to a
+      -- bare "+N keymaps" count instead of showing what they're for.
+      require("which-key").add({
+        { "<leader>f", group = "Find" },
+        { "<leader>l", group = "LaTeX" },
+        { "<leader>q", group = "Quit/Session" },
+        { "<leader>r", group = "LSP" },
+        { "<leader>t", group = "Theme" },
+        { "<leader>w", group = "Save" },
+      })
+    end
   },
 
   -- Comments & autopairs

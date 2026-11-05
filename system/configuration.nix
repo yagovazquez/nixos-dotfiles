@@ -2,10 +2,11 @@
 
 {
   imports =
-    [ 
+    [
       ./hardware-configuration.nix
       ./desktop.nix
       ./common.nix
+      ./theme.nix
     ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

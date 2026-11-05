@@ -9,7 +9,6 @@ let
     pandas
     scikit-learn
     matplotlib
-    manim
   ]);
 in
 {

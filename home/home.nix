@@ -8,6 +8,8 @@
   home.stateVersion = "25.05";
 
   imports = [
+    ./theme.nix
+
     ./scripts.nix
     ./programs/sh.nix
     ./programs/firefox.nix
@@ -15,6 +17,10 @@
     ./programs/zathura.nix
     ./programs/ghostty.nix
     ./programs/gtk.nix
+    ./programs/qutebrowser.nix
+    ./programs/rofi.nix
+    ./programs/mako.nix
+    ./programs/waybar.nix
     ./programs/languages/python.nix
     ./programs/languages/latex.nix
 
@@ -85,15 +91,6 @@
   xdg.configFile."vis".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/configs/vis";
 
-  # qutebrowser
-  home.file.".config/qutebrowser/config.py".source = ./configs/qutebrowser/config.py;
-
   # Yazi
   home.file.".config/yazi/yazi.toml".source = ./configs/yazi/yazi.toml;
-
-  # Waybar
-  xdg.configFile."waybar".source = ./configs/waybar;
-
-  # Rofi
-  xdg.configFile."rofi".source = ./configs/rofi;
 }

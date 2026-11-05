@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   home.packages = [
@@ -48,8 +48,8 @@
 
         # Appearance configuration
         font_size=12.0
-        fg_color="#E6E9FF"   # bright white
-        bg_color="#222436"   # TokyoNight Moon background
+        fg_color="${config.lib.stylix.colors.withHashtag.base05}"
+        bg_color="${config.lib.stylix.colors.withHashtag.base00}"
 
         # Use Hyprland 0.55+ Lua API dispatcher with raw strings [[ ]]
         hyprctl dispatch "hl.dsp.exec_cmd([[ [float; size 900 700; center] kitty \

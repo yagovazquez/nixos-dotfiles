@@ -26,7 +26,7 @@ local noteTaking = "obsidian"
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("waybar &")
-    hl.exec_cmd("mako &")
+    -- mako is started by its systemd user service (services.mako.enable)
     -- hl.exec_cmd("anki-bin &")
 end)
 
@@ -47,8 +47,8 @@ hl.config({
         gaps_out = 0,
         border_size = 1,
         col = {
-            active_border = "rgba(004687ff)",
-            inactive_border = "rgba(4c566aff)",
+            active_border = "__ACTIVE_BORDER__",
+            inactive_border = "__INACTIVE_BORDER__",
         },
         resize_on_border = false,
         allow_tearing = false,
@@ -62,7 +62,7 @@ hl.config({
             enabled = true,
             range = 4,
             render_power = 3,
-            color = "rgba(1a1a1aee)",
+            color = "__SHADOW_COLOR__",
         },
         blur = {
             enabled = true,

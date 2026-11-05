@@ -3,10 +3,8 @@
 {
   programs.ghostty = {
     enable = true;
+    # Colors and font come from stylix.targets.ghostty (see home/theme.nix).
     settings = {
-      font-family = "Inconsolata Nerd Font Mono";
-      #font-family = "MxPlus IBM VGA 9x16";
-      font-size = 14;
       #background-opacity = 0.9; #i control it through hyprland
       gtk-titlebar = false;
       resize-overlay = "never";
@@ -16,13 +14,7 @@
       window-vsync = true;
       window-decoration = "none";
       background-blur = false;
-      #theme = "nord";
-      theme = "TokyoNight Moon";
       # keybind = [];
-	  # background = "#000000"; # pure black
-	  background = "#1a1b26"; # tokyonight dark
-	  # background = "#121212"; # charcoal
-	  # background = "#282828"; # charcoal
     };
   };
 }

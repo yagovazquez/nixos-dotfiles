@@ -13,9 +13,14 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, stylix, ... }:
       let
         lib = nixpkgs.lib;
         system = "x86_64-linux";
@@ -29,7 +34,39 @@
             inherit system;
             modules = [
               ./system/configuration.nix
-              
+
+              # Several of stylix's system-level (NixOS) targets reference
+              # options that don't exist / were renamed on this nixpkgs
+              # release (e.g. regreet, kmscon), and none of them apply to
+              # this setup anyway (no grub/lightdm/gnome/qt/chromium/etc
+              # here). Only `console` (TTY colors) is actually wanted, so
+              # drop the rest outright instead of fighting each one.
+              {
+                disabledModules = map (m: "${stylix}/modules/${m}/nixos.nix") [
+                  "chromium"
+                  "feh"
+                  "fish"
+                  "fontconfig"
+                  "font-packages"
+                  "glance"
+                  "gnome"
+                  "gnome-text-editor"
+                  "grub"
+                  "gtk"
+                  "gtksourceview"
+                  "kmscon"
+                  "lightdm"
+                  "limine"
+                  "neovim"
+                  "plymouth"
+                  "qt"
+                  "regreet"
+                  "spicetify"
+                ];
+              }
+
+              stylix.nixosModules.stylix
+
               # Include the Home Manager NixOS module
               home-manager.nixosModules.home-manager
               
