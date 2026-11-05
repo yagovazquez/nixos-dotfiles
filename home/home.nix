@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstablePkgs, ... }:
 
 {
 
@@ -40,7 +40,7 @@
     obsidian             #note taking
     anki-bin             #flash cards
     vscode               # graphic code editor
-    code-cursor 		 # ai editor
+    unstablePkgs.code-cursor # ai editor (from nixpkgs-unstable, stable channel lags upstream releases)
     gimp				 # image edition
     viewnior
     wget
