@@ -43,25 +43,7 @@
               # drop the rest outright instead of fighting each one.
               {
                 disabledModules = map (m: "${stylix}/modules/${m}/nixos.nix") [
-                  "chromium"
-                  "feh"
-                  "fish"
-                  "fontconfig"
-                  "font-packages"
-                  "glance"
-                  "gnome"
-                  "gnome-text-editor"
-                  "grub"
-                  "gtk"
-                  "gtksourceview"
-                  "kmscon"
-                  "lightdm"
-                  "limine"
-                  "neovim"
-                  "plymouth"
-                  "qt"
-                  "regreet"
-                  "spicetify"
+                  "chromium" "feh" "fish" "fontconfig" "font-packages" "glance" "gnome" "gnome-text-editor" "grub" "gtk" "gtksourceview" "kmscon" "lightdm" "limine" "neovim" "plymouth" "qt" "regreet" "spicetify"
                 ];
               }
 

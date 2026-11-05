@@ -1,5 +1,23 @@
 -- LSP setup (Neovim 0.11+ API)
 
+-- Diagnostics: nerd-font signs instead of the default bare E/W/I/H letters,
+-- a one-glyph virtual text prefix instead of the full message inline, and
+-- a rounded float (matches vim.opt.winborder) with its source shown.
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+  },
+  underline = true,
+  severity_sort = true,
+  virtual_text = { spacing = 2, prefix = "●" },
+  float = { border = "rounded", source = true },
+})
+
 -- Completion capabilities (optional)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")

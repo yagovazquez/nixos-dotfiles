@@ -4,13 +4,19 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
+
+-- Highlight the line the cursor is on, like vis's STYLE_CURSOR_LINE
+vim.opt.cursorline = true
+
+-- Rounded borders on every float (LSP hover/signature, diagnostics, …)
+vim.opt.winborder = "rounded"
 
 -- which-key reacts faster
 vim.opt.timeoutlen = 300

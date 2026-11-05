@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 
 let
   inherit (config.lib.formats.rasi) mkLiteral;
@@ -23,11 +23,20 @@ in
         spacing = mkLiteral "0px";
       };
 
+      # The old tokyonight-moon.rasi (home/configs/rofi/themes/, pre-stylix)
+      # kept the window itself plain dark (nord0, same slot as base00) and
+      # used its accent blue (nord8/base0D) only for the border and the
+      # prompt text — stylix's template doesn't set either, so they fall
+      # back to a plain foreground-colored border. Restore both to accent
+      # blue (`@blue`, stylix's own base0D alias) to match that look.
       window = {
         location = mkLiteral "center";
         width = mkLiteral "480px";
         border = mkLiteral "1px";
+        "border-color" = mkLiteral "@blue";
       };
+
+      prompt.text-color = lib.mkForce (mkLiteral "@blue");
 
       inputbar = {
         padding = mkLiteral "8px 12px";

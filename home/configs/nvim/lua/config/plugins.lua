@@ -9,17 +9,29 @@ require("lazy").setup({
   -- when run outside that environment (e.g. a bare `nvim`).
   { "echasnovski/mini.base16", lazy = false, priority = 1000,
     config = function()
-      local fallback = {
-        base00 = "#222436", base01 = "#2f334d", base02 = "#2d3f76", base03 = "#636da6",
-        base04 = "#828bb8", base05 = "#c8d3f5", base06 = "#c8d3f5", base07 = "#d5dbf7",
-        base08 = "#ff757f", base09 = "#ff966c", base0A = "#ffc777", base0B = "#c3e88d",
-        base0C = "#86e1fc", base0D = "#82aaff", base0E = "#c099ff", base0F = "#c53b53",
-      }
-      local palette = {}
-      for slot, default in pairs(fallback) do
-        palette[slot] = vim.env["NIX_THEME_" .. slot:upper()] or default
-      end
+      local palette = require("config.theme").get()
       require("mini.base16").setup({ palette = palette })
+
+      -- mini.base16 puts LineNr/SignColumn on base01, a different bg than
+      -- the editor body (base00) — that reads as a wide colored sidebar.
+      -- Blend them into the body instead, and make the cursor's own line
+      -- number stand out (the one thing that *should* grab attention).
+      local hi = vim.api.nvim_set_hl
+      hi(0, "LineNr", { fg = palette.base03, bg = "NONE" })
+      hi(0, "LineNrAbove", { fg = palette.base03, bg = "NONE" })
+      hi(0, "LineNrBelow", { fg = palette.base03, bg = "NONE" })
+      hi(0, "SignColumn", { bg = "NONE" })
+      hi(0, "CursorLine", { bg = palette.base01 })
+      hi(0, "CursorLineNr", { fg = palette.base0D, bold = true, bg = palette.base01 })
+
+      -- Diagnostic signs link to the "Floating" variants by default, which
+      -- carry a base01 box background — fine in a float, but it leaves a
+      -- stray highlighted square around the icon in the (now transparent)
+      -- sign column. Keep the severity color, drop the box.
+      for _, sev in ipairs({ "Error", "Warn", "Info", "Hint", "Ok" }) do
+        local base = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. sev })
+        hi(0, "DiagnosticSign" .. sev, { fg = base.fg, bg = "NONE" })
+      end
     end
   },
 
@@ -35,10 +47,36 @@ require("lazy").setup({
     end
   },
 
-  -- Statusline
+  -- Statusline: mode-colored like vis's statusline.lua (blue=normal,
+  -- magenta=insert, green=visual, red=replace, cyan=command), driven by
+  -- the same live palette instead of lualine's generic "auto" theme.
   { "nvim-lualine/lualine.nvim",
-    opts = { options = { theme = "auto", globalstatus = true } },
-    config = function(_, opts) require("lualine").setup(opts) end
+    config = function()
+      local palette = require("config.theme").get()
+      local function section(bg)
+        return {
+          a = { bg = bg, fg = palette.base00, gui = "bold" },
+          b = { bg = palette.base01, fg = palette.base05 },
+          c = { bg = palette.base01, fg = palette.base04 },
+        }
+      end
+      local inactive = { bg = palette.base01, fg = palette.base03 }
+
+      require("lualine").setup({
+        options = {
+          theme = {
+            normal = section(palette.base0D),
+            insert = section(palette.base0E),
+            visual = section(palette.base0B),
+            replace = section(palette.base08),
+            command = section(palette.base0C),
+            terminal = section(palette.base0C),
+            inactive = { a = inactive, b = inactive, c = inactive },
+          },
+          globalstatus = true,
+        },
+      })
+    end
   },
 
   -- Treesitter (syntax/indent/highlight)
@@ -161,15 +199,24 @@ require("lazy").setup({
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
       "micangl/cmp-vimtex",
+      "onsails/lspkind.nvim",
     },
     config = function()
       local ok, cmp = pcall(require, "cmp")
       if not ok then return end
       local luasnip = require("luasnip")
       require("luasnip.loaders.from_vscode").lazy_load()
+      local lspkind = require("lspkind")
 
       cmp.setup({
         snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        formatting = {
+          format = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50, ellipsis_char = "..." }),
+        },
         mapping = cmp.mapping.preset.insert({
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"]      = cmp.mapping.confirm({ select = true }),

@@ -47,7 +47,7 @@
     anki-bin             #flash cards
     vscode               # graphic code editor
     unstablePkgs.code-cursor # ai editor (from nixpkgs-unstable, stable channel lags upstream releases)
-    gimp				 # image edition
+    gimp	inkscape		 # image edition
     viewnior
     wget
     unrar
@@ -77,8 +77,8 @@
   ];
 
   home.sessionVariables = {
-    EDITOR = "vis";
-    VISUAL = "vis";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   # --- Dotfiles / native app configs ---
