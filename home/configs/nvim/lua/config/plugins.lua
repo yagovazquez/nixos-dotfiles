@@ -1,46 +1,25 @@
 -- Plugin list (lazy.nvim)
-local colorscheme_names = { "tokyonight", "catppuccin", "rose-pine", "gruvbox" }
-
 require("lazy").setup({
   -- place lazy's lockfile in a writable XDG data directory on NixOS
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 
-  -- Theme: Tokyo Night (moon) - default
-  -- Comment/dim text colors come from system/theme.nix's base03/base04
-  -- (exported as env vars by home/theme.nix), so editing the hex values
-  -- there updates nvim too without touching this file.
-  { "folke/tokyonight.nvim", lazy = false, priority = 1000,
-    opts = {
-      style = "moon",
-      transparent = false,
-      on_colors = function(colors)
-        colors.comment = vim.env.NIX_THEME_BASE03 or colors.comment
-        colors.fg_dark = vim.env.NIX_THEME_BASE04 or colors.fg_dark
-      end,
-    },
-    config = function(_, opts)
-      require("tokyonight").setup(opts)
-      vim.cmd.colorscheme("tokyonight")
-    end
-  },
-
-  -- Alternate themes for quick switching
-  { "catppuccin/nvim", name = "catppuccin", lazy = true,
-    opts = { flavour = "mocha" },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-    end
-  },
-  { "rose-pine/neovim", name = "rose-pine", lazy = true,
-    opts = { variant = "moon" },
-    config = function(_, opts)
-      require("rose-pine").setup(opts)
-    end
-  },
-  { "ellisonleao/gruvbox.nvim", lazy = true,
-    opts = { contrast = "soft" },
-    config = function(_, opts)
-      require("gruvbox").setup(opts)
+  -- Theme: the exact base16 palette from system/theme.nix (same colors as
+  -- every other themed program), passed in via env vars from
+  -- home/theme.nix. Falls back to the vanilla Tokyo Night Moon palette
+  -- when run outside that environment (e.g. a bare `nvim`).
+  { "echasnovski/mini.base16", lazy = false, priority = 1000,
+    config = function()
+      local fallback = {
+        base00 = "#222436", base01 = "#2f334d", base02 = "#2d3f76", base03 = "#636da6",
+        base04 = "#828bb8", base05 = "#c8d3f5", base06 = "#c8d3f5", base07 = "#d5dbf7",
+        base08 = "#ff757f", base09 = "#ff966c", base0A = "#ffc777", base0B = "#c3e88d",
+        base0C = "#86e1fc", base0D = "#82aaff", base0E = "#c099ff", base0F = "#c53b53",
+      }
+      local palette = {}
+      for slot, default in pairs(fallback) do
+        palette[slot] = vim.env["NIX_THEME_" .. slot:upper()] or default
+      end
+      require("mini.base16").setup({ palette = palette })
     end
   },
 
@@ -58,7 +37,7 @@ require("lazy").setup({
 
   -- Statusline
   { "nvim-lualine/lualine.nvim",
-    opts = { options = { theme = "tokyonight", globalstatus = true } },
+    opts = { options = { theme = "auto", globalstatus = true } },
     config = function(_, opts) require("lualine").setup(opts) end
   },
 
@@ -128,7 +107,6 @@ require("lazy").setup({
         { "<leader>l", group = "LaTeX" },
         { "<leader>q", group = "Quit/Session" },
         { "<leader>r", group = "LSP" },
-        { "<leader>t", group = "Theme" },
         { "<leader>w", group = "Save" },
       })
     end

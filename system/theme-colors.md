@@ -12,31 +12,33 @@ what's active right now).
 
 | slot | hex (vanilla) | hex (personal) | role | used by |
 |------|---------------|-----------------|------|---------|
-| base00 | `#222436` | — | background | qutebrowser (page/UI bg), rofi (bg), zathura (page/inputbar/notification bg), ghostty (bg, ANSI black), mako (bg), tty console (ANSI black), hyprland (shadow color) |
-| base01 | `#2f334d` | — | secondary surface | qutebrowser (alternating completion/tab rows, disabled context-menu bg), zathura (**default text fg**, completion-list bg) |
-| base02 | `#2d3f76` | — | subtle highlight | ghostty (text-selection bg), zathura (statusbar bg), mako (progress-bar track) |
-| base03 | `#636da6` | `#a3b0e0` | dim text / selection accent | **nvim** (comment color, via `NIX_THEME_BASE03`), qutebrowser (the generic "selected" bg across completion items, context menu, hints, statusbar caret-selection, prompts, pinned tabs — *tabs.selected itself is force-overridden to base0D, see qutebrowser.nix*), ghostty (ANSI bright-black), hyprland (inactive window border) |
-| base04 | `#828bb8` | `#97a4d4` | dim fg #2 | **nvim** (`fg_dark`, via `NIX_THEME_BASE04`), zathura (statusbar fg) |
-| base05 | `#c8d3f5` | — | main foreground | qutebrowser (most text), rofi (main text), ghostty (fg, cursor color, selection fg, ANSI white), mako (text), tty console (ANSI white) |
-| base06 | `#c8d3f5` | — | light fg | rofi (**background** of a plain selected/hovered list item — not urgent/active), zathura (recolor "dark" replacement color for PDF recoloring) |
-| base07 | `#d5dbf7` | — | lightest fg | zathura (inputbar fg, normal notification fg, completion-highlight fg), ghostty + tty console (ANSI bright white) |
-| base08 | `#ff757f` | — | red / error / urgent | qutebrowser (errors, tab-load-error indicator), rofi (urgent window/workspace), zathura (error **and** warning notification fg — stylix's zathura target reuses red for warnings too), ghostty + console (ANSI red), mako (critical-urgency border) |
-| base09 | `#ff966c` | — | orange | not used by any currently-enabled target (defined but inert here) |
-| base0A | `#ffc777` | — | yellow / search highlight | zathura (search-match highlight), ghostty + console (ANSI yellow) |
-| base0B | `#c3e88d` | — | green / "info" | qutebrowser (completion category labels, download-start, info messages, **insert-mode statusbar**, `https://` success indicator, pinned tabs), ghostty + console (ANSI green) |
-| base0C | `#86e1fc` | — | cyan / "secondary info" | qutebrowser (download-stop, plain `http://` success indicator), ghostty + console (ANSI cyan) |
-| base0D | `#82aaff` | — | **blue / primary accent** | rofi (active/matched item), zathura (active search match, completion accent), mako (default notification border), hyprland (**active window border**), ghostty + console (ANSI blue), qutebrowser **active tab** (forced in `qutebrowser.nix` — stylix's own template doesn't use base0D at all, which is why it looked grey before that fix) |
-| base0E | `#c099ff` | — | magenta / warning | qutebrowser (warning messages, `warn` url color), ghostty + console (ANSI magenta) |
-| base0F | `#c53b53` | — | rare/special | not used by any currently-enabled target |
+| base00 | `#222436` | — | background | **nvim** (bg), qutebrowser (page/UI bg), rofi (bg), zathura (page/inputbar/notification bg), ghostty (bg, ANSI black), mako (bg), tty console (ANSI black), hyprland (shadow color) |
+| base01 | `#2f334d` | — | secondary surface | **nvim** (bg_highlight / line-number column etc.), qutebrowser (alternating completion/tab rows, disabled context-menu bg), zathura (**default text fg**, completion-list bg) |
+| base02 | `#2d3f76` | — | subtle highlight | **nvim** (visual selection bg), ghostty (text-selection bg), zathura (statusbar bg), mako (progress-bar track) |
+| base03 | `#636da6` | `#a3b0e0` | dim text / selection accent | **nvim** (comment color), qutebrowser (the generic "selected" bg across completion items, context menu, hints, statusbar caret-selection, prompts, pinned tabs — *tabs.selected itself is force-overridden to base0D, see qutebrowser.nix*), ghostty (ANSI bright-black), hyprland (inactive window border) |
+| base04 | `#828bb8` | `#97a4d4` | dim fg #2 | **nvim** (secondary dim fg), zathura (statusbar fg) |
+| base05 | `#c8d3f5` | — | main foreground | **nvim** (fg), qutebrowser (most text), rofi (main text), ghostty (fg, cursor color, selection fg, ANSI white), mako (text), tty console (ANSI white) |
+| base06 | `#c8d3f5` | — | light fg | **nvim** (one shade brighter than fg), rofi (**background** of a plain selected/hovered list item — not urgent/active), zathura (recolor "dark" replacement color for PDF recoloring) |
+| base07 | `#d5dbf7` | — | lightest fg | **nvim** (brightest fg, e.g. headings), zathura (inputbar fg, normal notification fg, completion-highlight fg), ghostty + tty console (ANSI bright white) |
+| base08 | `#ff757f` | — | red / error / urgent | **nvim** (errors, diffs), qutebrowser (errors, tab-load-error indicator), rofi (urgent window/workspace), zathura (error **and** warning notification fg — stylix's zathura target reuses red for warnings too), ghostty + console (ANSI red), mako (critical-urgency border) |
+| base09 | `#ff966c` | — | orange | **nvim** (numbers/constants), not used by any other currently-enabled target |
+| base0A | `#ffc777` | — | yellow / search highlight | **nvim** (warnings/search), zathura (search-match highlight), ghostty + console (ANSI yellow) |
+| base0B | `#c3e88d` | — | green / "info" | **nvim** (strings), qutebrowser (completion category labels, download-start, info messages, **insert-mode statusbar**, `https://` success indicator, pinned tabs), ghostty + console (ANSI green) |
+| base0C | `#86e1fc` | — | cyan / "secondary info" | **nvim** (support/escape chars), qutebrowser (download-stop, plain `http://` success indicator), ghostty + console (ANSI cyan) |
+| base0D | `#82aaff` | — | **blue / primary accent** | **nvim** (functions/keywords), rofi (active/matched item), zathura (active search match, completion accent), mako (default notification border), hyprland (**active window border**), ghostty + console (ANSI blue), qutebrowser **active tab** (forced in `qutebrowser.nix` — stylix's own template doesn't use base0D at all, which is why it looked grey before that fix) |
+| base0E | `#c099ff` | — | magenta / warning | **nvim** (keywords/types), qutebrowser (warning messages, `warn` url color), ghostty + console (ANSI magenta) |
+| base0F | `#c53b53` | — | rare/special | **nvim** (deprecated/rare syntax), not used by any other currently-enabled target |
 
 ## Gotchas when editing colors here
 
-- **nvim mostly ignores this file.** `stylix.targets.neovim.enable = false`
-  (see `home/theme.nix`) — nvim keeps its own `tokyonight.nvim` colorscheme.
-  The *only* two slots that reach nvim are base03/base04, piped through as
-  the `NIX_THEME_BASE03`/`NIX_THEME_BASE04` env vars
-  (`home/theme.nix` → `home/configs/nvim/lua/config/plugins.lua`). Changing
-  any other slot (base00, base05, base0D, ...) will never affect nvim.
+- **nvim now follows this file fully.** nvim uses `mini.base16`
+  (`home/configs/nvim/lua/config/plugins.lua`), fed the full 16-slot
+  palette via env vars (`NIX_THEME_BASE00`..`NIX_THEME_BASE0F`, exported by
+  `home/theme.nix`). `stylix.targets.neovim.enable` stays `false` only
+  because that target themes `programs.neovim` (home-manager's own nvim
+  module), which this config doesn't use — nvim is a hand-rolled
+  lazy.nvim setup instead, themed directly. Any slot you change here now
+  reaches nvim after a rebuild + nvim restart.
 - **Waybar and GTK are fully decoupled.** `stylix.targets.waybar.enable =
   false` and `gtk.enable = false` — waybar's colors live only in
   `home/configs/waybar/style.css`, hand-written.

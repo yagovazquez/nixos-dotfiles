@@ -1,5 +1,16 @@
 { config, lib, ... }:
 
+let
+  # The 16 standard base16 slots. Stylix's color set also exposes extended
+  # base10-base17/named aliases, but only these are meant to be a stable
+  # cross-program contract, so only these get exported.
+  base16Slots = [
+    "base00" "base01" "base02" "base03"
+    "base04" "base05" "base06" "base07"
+    "base08" "base09" "base0A" "base0B"
+    "base0C" "base0D" "base0E" "base0F"
+  ];
+in
 {
   # Colors/fonts/polarity are set in system/theme.nix and inherited here
   # automatically by stylix's home-manager integration. Only per-app target
@@ -10,7 +21,9 @@
     # Hyprland config here is plain hyprland.lua, not the HM hyprland module;
     # it's themed by hand in configs/hypr/default.nix instead.
     hyprland.enable = false;
-    # nvim keeps its own tokyonight.nvim setup; themed via on_colors instead.
+    # nvim isn't managed via programs.neovim (it's a hand-rolled
+    # lazy.nvim setup), so this target would have nothing to attach to.
+    # It's themed directly instead, via the env vars below.
     neovim.enable = false;
 
     ghostty.enable = true;
@@ -23,13 +36,13 @@
     mako.enable = true;
   };
 
-  # Hands the active base16 colors to nvim (and anything else outside
-  # stylix's reach) as env vars, so editing system/theme.nix actually
-  # changes what nvim shows instead of nvim re-declaring its own copies.
+  # Hands the active base16 palette to nvim (and anything else outside
+  # stylix's reach) as env vars, so editing system/theme.nix's colors
+  # actually changes what nvim shows instead of nvim keeping its own copy.
   # `config.lib.stylix.colors` is already the vanilla scheme merged with
   # whatever override is active, so no variant branching is needed here.
-  home.sessionVariables = {
-    NIX_THEME_BASE03 = config.lib.stylix.colors.withHashtag.base03;
-    NIX_THEME_BASE04 = config.lib.stylix.colors.withHashtag.base04;
-  };
+  home.sessionVariables = lib.listToAttrs (map (slot: {
+    name = "NIX_THEME_" + lib.toUpper slot;
+    value = config.lib.stylix.colors.withHashtag.${slot};
+  }) base16Slots);
 }
