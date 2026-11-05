@@ -23,7 +23,13 @@
     mako.enable = true;
   };
 
-  # Lets nvim (and anything else outside stylix's reach) know which variant
-  # is active, derived from whether system/theme.nix set an override.
-  home.sessionVariables.NIX_THEME_VARIANT = lib.optionalString (config.stylix.override != { }) "personal";
+  # Hands the active base16 colors to nvim (and anything else outside
+  # stylix's reach) as env vars, so editing system/theme.nix actually
+  # changes what nvim shows instead of nvim re-declaring its own copies.
+  # `config.lib.stylix.colors` is already the vanilla scheme merged with
+  # whatever override is active, so no variant branching is needed here.
+  home.sessionVariables = {
+    NIX_THEME_BASE03 = config.lib.stylix.colors.withHashtag.base03;
+    NIX_THEME_BASE04 = config.lib.stylix.colors.withHashtag.base04;
+  };
 }

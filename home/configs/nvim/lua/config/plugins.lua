@@ -6,17 +6,16 @@ require("lazy").setup({
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 
   -- Theme: Tokyo Night (moon) - default
-  -- Comment/dim text brightened when NIX_THEME_VARIANT=personal (set by
-  -- home/theme.nix), matching the same tweak stylix applies system-wide.
+  -- Comment/dim text colors come from system/theme.nix's base03/base04
+  -- (exported as env vars by home/theme.nix), so editing the hex values
+  -- there updates nvim too without touching this file.
   { "folke/tokyonight.nvim", lazy = false, priority = 1000,
     opts = {
       style = "moon",
       transparent = false,
       on_colors = function(colors)
-        if vim.env.NIX_THEME_VARIANT == "personal" then
-          colors.comment = "#a3b0e0"
-          colors.fg_dark = "#97a4d4"
-        end
+        colors.comment = vim.env.NIX_THEME_BASE03 or colors.comment
+        colors.fg_dark = vim.env.NIX_THEME_BASE04 or colors.fg_dark
       end,
     },
     config = function(_, opts)
