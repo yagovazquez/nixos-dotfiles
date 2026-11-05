@@ -16,6 +16,11 @@
       };
 
       userChrome = builtins.readFile ../configs/firefox/userChrome.css;
+
+      # Acknowledges that stylix's firefox colorTheme target (home/theme.nix)
+      # owns the FirefoxColor extension's settings outright — fine since we
+      # don't declare any settings of our own for it.
+      extensions.settings."FirefoxColor@mozilla.com".force = true;
     };
   };
 }

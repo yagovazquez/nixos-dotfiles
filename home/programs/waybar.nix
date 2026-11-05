@@ -1,11 +1,39 @@
-{ ... }:
+{ config, lib, ... }:
 
+let
+  # style.css's `@define-color` block already carries the exact TokyoNight
+  # Night values it was hand-tuned against as defaults, so when that's the
+  # active scheme no override is needed — the file stays pixel-identical
+  # to before. Every other scheme gets those same colors redefined from
+  # the live base16 palette, appended after the stylesheet so the later
+  # `@define-color` declarations win (GTK CSS resolves each `@name` to its
+  # most-recently-defined value).
+  isTokyonight = builtins.elem config.lib.stylix.colors.slug [ "tokyonight-night" "tokyonight-moon" ];
+  c = config.lib.stylix.colors.withHashtag;
+  paletteOverride = ''
+
+    @define-color bg ${c.base01};
+    @define-color fg ${c.base05};
+    @define-color border ${c.base02};
+    @define-color separator ${c.base00};
+    @define-color accent-active ${c.base0E};
+    @define-color urgent ${c.base08};
+    @define-color good ${c.base0B};
+    @define-color warn ${c.base0A};
+    @define-color charging ${c.base0C};
+    @define-color muted ${c.base03};
+    @define-color clock-color ${c.base0D};
+    @define-color net-ok ${c.base0C};
+    @define-color hover ${c.base02};
+  '';
+in
 {
   programs.waybar = {
     enable = true;
     systemd.enable = false;
 
-    style = builtins.readFile ../configs/waybar/style.css;
+    style = builtins.readFile ../configs/waybar/style.css
+      + lib.optionalString (!isTokyonight) paletteOverride;
 
     settings.mainBar = {
       position = "top";

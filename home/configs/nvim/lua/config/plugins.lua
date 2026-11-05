@@ -32,6 +32,31 @@ require("lazy").setup({
         local base = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. sev })
         hi(0, "DiagnosticSign" .. sev, { fg = base.fg, bg = "NONE" })
       end
+
+      -- base16's spec puts "Type" (classes, and everything that default-
+      -- links to it: StorageClass/Structure/Typedef, plus the @type
+      -- treesitter capture) on base0A, and "Identifier" (plus @property,
+      -- which default-links to it) on base08. That's the right call for a
+      -- scheme ported faithfully to base16 (gruvbox's classes really are
+      -- base0A-yellow), but our tokyonight ports were built by copying
+      -- tokyonight's own named colors slot-for-slot (red->base08,
+      -- yellow->base0A, ...) to keep ANSI/search-highlight colors sane
+      -- system-wide — and tokyonight itself doesn't use yellow for types or
+      -- red for object fields, so those two groups end up visibly wrong:
+      -- every class/type name reads as a warning, every `.field` access
+      -- reads as an error. Point them at base0C instead (closest to
+      -- tokyonight's actual type/property hue, and still a calm, non-
+      -- alarming color for any other scheme) without touching the palette
+      -- itself, so ANSI yellow/red stay intact everywhere else.
+      hi(0, "Type", { fg = palette.base0C })
+      hi(0, "@property", { fg = palette.base0C })
+      -- These two aren't shared with anything ANSI-sensitive, and happen to
+      -- land exactly on tokyonight's real colors already (constructors in
+      -- magenta, builtin vars like self/this in red), so just repoint them
+      -- off their current, less accurate default links (both currently
+      -- inherit cyan via "Special").
+      hi(0, "@constructor", { fg = palette.base0E })
+      hi(0, "@variable.builtin", { fg = palette.base08 })
     end
   },
 

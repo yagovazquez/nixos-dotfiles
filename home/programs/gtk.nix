@@ -18,7 +18,15 @@
     };
     theme = {
       name = "Tokyonight-Dark";
-      package = pkgs.tokyonight-gtk-theme;
+      # Upstream's compiled CSS sets `border-spacing` on box/combobox
+      # selectors, which GTK's CSS engine doesn't support at all (it's
+      # not a real GTK property anywhere). GTK ignores it but logs a
+      # parse warning for every occurrence; strip them at build time.
+      package = pkgs.tokyonight-gtk-theme.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          find "$out/share/themes" -name '*.css' -exec sed -i '/border-spacing:/d' {} +
+        '';
+      });
     };
     font = {
       name = "Noto Sans";

@@ -1,4 +1,23 @@
-/* Waybar style using TokyoNight Moon colors */
+/* Waybar style, text/background colors driven by GTK @define-color below
+   (GTK CSS has no `:root`/`var()` support, so these use GTK's own color
+   mechanism). The defaults here are the exact TokyoNight Night values
+   this file was originally hand-tuned against; home/programs/waybar.nix
+   appends overrides redefining these same colors from the live base16
+   palette for every other colorscheme, so this block is untouched (and
+   looks exactly as it always has) when TokyoNight is active. */
+@define-color bg #1f2335;
+@define-color fg #c0caf5;
+@define-color border #3b4261;
+@define-color separator #181a29;
+@define-color accent-active #bb9af7;
+@define-color urgent #f7768e;
+@define-color good #9ece6a;
+@define-color warn #e0af68;
+@define-color charging #73daca;
+@define-color muted #565f89;
+@define-color clock-color #7aa2f7;
+@define-color net-ok #7dcfff;
+@define-color hover #2a3158;
 
 * {
   font-family: "MxPlus IBM VGA 9x16", monospace;
@@ -13,9 +32,9 @@
 
 /* Bar container */
 #waybar {
-  background-color: #1f2335;
-  color: #c0caf5;
-  border-bottom: 1px solid #3b4261;
+  background-color: @bg;
+  color: @fg;
+  border-bottom: 1px solid @border;
   padding: 0 3px;
   padding-top: 2px;
 }
@@ -38,11 +57,11 @@
 
 
 #workspaces button.active {
-  color: #bb9af7;
+  color: @accent-active;
 }
 
 #workspaces button.urgent {
-  color: #f7768e;
+  color: @urgent;
 }
 
 /* Module spacing */
@@ -81,34 +100,34 @@ label:hover {
 #backlight + #pulseaudio,
 #pulseaudio + #custom-timer,
 #custom-timer + #clock {
-  border-left-color: #181a29;
+  border-left-color: @separator;
 }
 
 /* Battery states */
-#battery.good label     { color: #9ece6a; }
-#battery.warning label  { color: #e0af68; }
-#battery.critical label { color: #f7768e; }
+#battery.good label     { color: @good; }
+#battery.warning label  { color: @warn; }
+#battery.critical label { color: @urgent; }
 #battery.charging label,
-#battery.plugged label  { color: #73daca; }
+#battery.plugged label  { color: @charging; }
 
 /* Audio mute state */
-#pulseaudio.muted { color: #565f89; }
+#pulseaudio.muted { color: @muted; }
 
 /* Clock accent */
-#clock { color: #7aa2f7; }
+#clock { color: @clock-color; }
 
 /* Chronometer modes: stopwatch (default), timer countdown, timer finished */
-#custom-timer.timer-running { color: #e0af68; }
+#custom-timer.timer-running { color: @warn; }
 #custom-timer.timer-finished {
-  color: #f7768e;
+  color: @urgent;
   font-weight: bold;
 }
 
 /* Network states */
-#network.disconnected { color: #f7768e; }
-#network.linked       { color: #e0af68; }
+#network.disconnected { color: @urgent; }
+#network.linked       { color: @warn; }
 #network.wifi,
-#network.ethernet     { color: #7dcfff; }
+#network.ethernet     { color: @net-ok; }
 
 /* Hover highlight for modules */
 #cpu:hover,
@@ -119,6 +138,6 @@ label:hover {
 #pulseaudio:hover,
 #custom-timer:hover,
 #clock:hover {
-  background: #2a3158;
+  background: @hover;
   border-radius: 8px;
 }

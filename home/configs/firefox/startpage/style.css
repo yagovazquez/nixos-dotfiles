@@ -1,10 +1,16 @@
-/* Tokyo Night — MOON palette */
+/* Tokyo Night — MOON palette. These are also the defaults for the custom
+   properties below; home/theme.nix appends a `:root` override redefining
+   them from the live base16 palette (shared with every other themed app),
+   loaded via the second <link> in index.html, so this file keeps working
+   standalone too. */
 :root{
   --bg: #222436;          /* page background */
   --card: #1e2030;        /* cards/containers */
   --fg: #ffffff;          /* primary text */
   --muted: #7a88cf;       /* secondary text / headings */
   --link: #82aaff;        /* links */
+  --border: #2f334d;      /* card/input borders */
+  --border-strong: #3b4261; /* focused input / kbd borders */
   --shadow: rgba(0,0,0,.50);
 }
 
@@ -50,14 +56,14 @@ h1{
 .search{ margin: 8px 0 22px; }
 .search input{
   width: min(520px, 100%);
-  border: 1px solid #2f334d;  /* moon border */
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 14px;
-  background: #1b1e2b;        /* moon surface1 */
+  background: var(--card);
   color: var(--fg);
   outline: none;
 }
-.search input:focus{ border-color: #3b4261; } /* moon border highlight */
+.search input:focus{ border-color: var(--border-strong); }
 
 /* Links grid */
 .grid{
@@ -86,8 +92,8 @@ a:hover{ text-decoration: underline; }
 .hotkeys {
   margin-top: 8px;
   padding: 12px 14px;
-  background: #1b1e2b;          /* moon surface1 */
-  border: 1px solid #2f334d;     /* moon border */
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: 0 6px 18px var(--shadow);
   max-width: 520px;
@@ -108,10 +114,10 @@ kbd {
   font-family: ui-monospace, monospace;
   font-size: .9rem;
   padding: 2px 6px;
-  border: 1px solid #3b4261;     /* moon border strong */
+  border: 1px solid var(--border-strong);
   border-bottom-width: 2px;
   border-radius: 5px;
-  background: #171a24;           /* moon surface0 */
+  background: var(--card);
   color: var(--fg);
   white-space: nowrap;
 }

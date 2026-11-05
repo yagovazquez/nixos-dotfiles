@@ -4,7 +4,7 @@ let
   # === THE ONE SWITCH ===
   # "personal" = tokyonight-night with comments brightened for this screen.
   # "vanilla" = unmodified tokyonight-night. Flip and `update` to apply.
-  variant = "personal";
+  variant = "vanilla";
 
   # Plain tokyonight-moon (https://github.com/folke/tokyonight.nvim), as a
   # base16 scheme. No longer the active scheme (see `night` below) — kept
@@ -72,6 +72,67 @@ let
   personalOverride = {
     base03 = "a3b0e0"; # #a3b0e0
   };
+
+  # mfd-mono (https://github.com/kungfusheep/mfd.nvim), adapted to base16.
+  # mfd is a genuinely monotone colorscheme family — it leans on weight/
+  # italics instead of hue for syntax highlighting — so base08-base0F here
+  # are just a grayscale ramp rather than real accent colors, to keep that
+  # black-and-white character. base00/01/02/03/05/07 are mfd-mono's actual
+  # bg/float_bg/visual/dim/fg/bright values; everything else is interpolated
+  # to fill out the base16 contract. Not active — set `base16Scheme = mfd;`
+  # below to try it.
+  # Text slots (03-0F) bumped brighter than mfd-mono's originals — the
+  # as-adapted values left some foreground text sitting too close in
+  # brightness to the backgrounds (base00-02), making contrast hard to
+  # pick out at a glance. Shifted the whole grayscale ramp up uniformly to
+  # keep its relative spacing (and the monotone, weight/italics-driven
+  # character) while giving every text slot more headroom over the bg.
+  mfd = {
+    scheme = "MFD Mono";
+    author = "kungfusheep/mfd.nvim, adapted to base16";
+    slug = "mfd-mono";
+    base00 = "000000"; # bg            #08080C
+    base01 = "0C0C10"; # float_bg      #0C0C10
+    base02 = "1A1A22"; # visual/sel    #1A1A22
+    base03 = "343440"; # dim, comments (brightened from #282830)
+    base04 = "585860"; # subtle        (brightened from #383840)
+    base05 = "DCDCE4"; # fg            (brightened from #D0D0D8)
+    base06 = "ECECF4"; # light fg      (brightened from #E0E0E8)
+    base07 = "FCFCFF"; # bright        (brightened from #F0F0FF)
+    base08 = "808088"; # red slot -> gray (brightened from #606068)
+    base09 = "909098"; # orange slot -> gray (brightened from #707078)
+    base0A = "A0A0A8"; # yellow slot -> gray (brightened from #808088)
+    base0B = "B0B0B8"; # green slot -> gray (brightened from #909098)
+    base0C = "C0C0C8"; # cyan slot -> gray (brightened from #A0A0A8)
+    base0D = "D0D0D8"; # blue slot -> gray (brightened from #B0B0B8)
+    base0E = "E0E0E8"; # magenta slot -> gray (brightened from #C0C0C8)
+    base0F = "606068"; # rarely used -> gray (brightened from #404048)
+  };
+
+  # base16-gruvbox-dark-hard (https://github.com/morhetz/gruvbox), the
+  # standard base16 port by Dawid Kurek. Not active — set
+  # `base16Scheme = gruvbox;` below to try it.
+  gruvbox = {
+    scheme = "Gruvbox dark, hard";
+    author = "Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)";
+    slug = "gruvbox-dark-hard";
+    base00 = "1d2021"; # bg            #1d2021
+    base01 = "3c3836"; # bg_highlight  #3c3836
+    base02 = "504945"; # bg_visual/sel #504945
+    base03 = "665c54"; # comment, dim  #665c54
+    base04 = "bdae93"; # fg_dark       #bdae93
+    base05 = "d5c4a1"; # fg            #d5c4a1
+    base06 = "ebdbb2"; # light fg      #ebdbb2
+    base07 = "fbf1c7"; # lightest fg   #fbf1c7
+    base08 = "fb4934"; # red           #fb4934
+    base09 = "fe8019"; # orange        #fe8019
+    base0A = "fabd2f"; # yellow        #fabd2f
+    base0B = "b8bb26"; # green         #b8bb26
+    base0C = "8ec07c"; # cyan          #8ec07c
+    base0D = "83a598"; # blue          #83a598
+    base0E = "d3869b"; # magenta/purp  #d3869b
+    base0F = "d65d0e"; # rarely used   #d65d0e
+  };
 in
 {
   stylix.enable = true;
@@ -90,6 +151,8 @@ in
   stylix.autoEnable = false;
   stylix.targets.console.enable = true;
 
+  # Other schemes defined above (night, gruvbox) are ready to use — just
+  # swap `mfd` for one of them here.
   stylix.base16Scheme = night;
   stylix.override = if variant == "personal" then personalOverride else { };
 
