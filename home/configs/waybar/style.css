@@ -97,6 +97,13 @@ label:hover {
 /* Clock accent */
 #clock { color: #7aa2f7; }
 
+/* Chronometer modes: stopwatch (default), timer countdown, timer finished */
+#custom-timer.timer-running { color: #e0af68; }
+#custom-timer.timer-finished {
+  color: #f7768e;
+  font-weight: bold;
+}
+
 /* Network states */
 #network.disconnected { color: #f7768e; }
 #network.linked       { color: #e0af68; }

@@ -46,7 +46,7 @@
 
   "custom/timer": {
     "exec": "~/nix-config/home/configs/waybar/waybar-timer.sh print",
-    "return-type": "plain",
+    "return-type": "json",
     "interval": 1,
     "signal": 5,
     "tooltip": false,

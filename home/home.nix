@@ -23,6 +23,7 @@
 
   # Programs
   home.packages = with pkgs; [
+	claude-code
 	waybar
     google-chrome
     udisks2

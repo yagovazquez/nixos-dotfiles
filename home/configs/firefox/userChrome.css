@@ -1,0 +1,16 @@
+/* Hide the native tab bar — tabs are managed via the Sidebery sidebar instead */
+#TabsToolbar {
+  visibility: collapse !important;
+}
+
+/* Hide Firefox's native sidebar icon launcher (the rail with History/Bookmarks/etc) —
+   Sidebery renders into #sidebar-box, which is left untouched */
+#sidebar-container,
+#sidebar-launcher-splitter {
+  display: none !important;
+}
+
+/* Remove rounded corners everywhere (tabs, urlbar, panels, buttons, menus) */
+* {
+  border-radius: 0 !important;
+}

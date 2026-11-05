@@ -169,6 +169,7 @@ hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("rofi-nixos-update"))
 -- Timer controls
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh toggle && pkill -RTMIN+5 waybar"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh reset && pkill -RTMIN+5 waybar"))
+hl.bind(mainMod .. " + ALT + T", hl.dsp.exec_cmd("~/nix-config/home/configs/waybar/waybar-timer.sh timer-start && pkill -RTMIN+5 waybar"))
 
 -- Screen Filter
 hl.bind(mainMod .. " + F9", hl.dsp.exec_cmd("hyprsunset --temperature 4500"))

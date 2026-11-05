@@ -11,7 +11,11 @@
         "browser.startup.homepage" = "file:///home/agallas/nix-config/home/configs/firefox/startpage/index.html";
         "browser.startup.page" = 1;
         "browser.newtabpage.activity-stream.enabled" = false;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "sidebar.revamp" = false;
       };
+
+      userChrome = builtins.readFile ../configs/firefox/userChrome.css;
     };
   };
 }
