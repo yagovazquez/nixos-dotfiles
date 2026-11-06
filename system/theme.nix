@@ -58,7 +58,8 @@ let
     base08 = "f7768e"; # red           #f7768e
     base09 = "ff9e64"; # orange        #ff9e64
     base0A = "e0af68"; # yellow        #e0af68
-    base0B = "9ece6a"; # green         #9ece6a
+    #base0B = "9ece6a"; # green        #9ece6a
+    base0B = "2dc937"; # dark green    #2DC937
     base0C = "7dcfff"; # cyan          #7dcfff
     base0D = "7aa2f7"; # blue          #7aa2f7
     base0E = "bb9af7"; # magenta/purp  #bb9af7

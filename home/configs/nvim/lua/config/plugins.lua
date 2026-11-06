@@ -17,6 +17,13 @@ require("lazy").setup({
       -- Blend them into the body instead, and make the cursor's own line
       -- number stand out (the one thing that *should* grab attention).
       local hi = vim.api.nvim_set_hl
+      -- Drop the explicit RGB background on the editor body so Ghostty's
+      -- background-opacity (which only blends cells with no explicit bg
+      -- color set) actually applies to nvim too. Floats/popups/statusline
+      -- keep their solid backgrounds for legibility.
+      hi(0, "Normal", { bg = "NONE" })
+      hi(0, "NormalNC", { bg = "NONE" })
+      hi(0, "EndOfBuffer", { bg = "NONE" })
       hi(0, "LineNr", { fg = palette.base03, bg = "NONE" })
       hi(0, "LineNrAbove", { fg = palette.base03, bg = "NONE" })
       hi(0, "LineNrBelow", { fg = palette.base03, bg = "NONE" })

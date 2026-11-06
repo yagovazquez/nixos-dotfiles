@@ -5,7 +5,7 @@
     enable = true;
     # Colors and font come from stylix.targets.ghostty (see home/theme.nix).
     settings = {
-      #background-opacity = 0.9; #i control it through hyprland
+      background-opacity = 0.8; #i control it through hyprland
       gtk-titlebar = false;
       resize-overlay = "never";
       confirm-close-surface = false;
