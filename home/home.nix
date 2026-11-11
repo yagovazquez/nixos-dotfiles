@@ -27,7 +27,7 @@
 
   # Programs
   home.packages = with pkgs; [
-	claude-code
+	unstablePkgs.claude-code # stable channel lags upstream releases
 	waybar
     google-chrome
     udisks2
