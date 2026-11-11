@@ -20,7 +20,7 @@ let
     @define-color urgent ${c.base08};
     @define-color good ${c.base0B};
     @define-color warn ${c.base0A};
-    @define-color charging ${c.base0C};
+    @define-color charging ${c.base0B};
     @define-color muted ${c.base03};
     @define-color clock-color ${c.base0D};
     @define-color net-ok ${c.base0C};
@@ -97,7 +97,7 @@ in
       battery = {
         interval = 15;
         states = {
-          good = 80;
+          good = 100;
           warning = 30;
           critical = 10;
         };

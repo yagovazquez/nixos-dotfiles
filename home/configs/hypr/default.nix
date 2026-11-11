@@ -18,7 +18,9 @@ in
 		hyprsunset
 	];
 
-	home.file.".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
+	# Out-of-store so editing hyprpaper.conf directly takes effect without a rebuild
+	home.file.".config/hypr/hyprpaper.conf".source =
+		config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/configs/hypr/hyprpaper.conf";
 	# Colors templated in from the shared palette (see home/theme.nix);
 	# everything else in this file is edited directly.
 	home.file.".config/hypr/hyprland.lua".text = hyprlandLua;

@@ -9,7 +9,6 @@
 
   imports = [
     ./theme.nix
-
     ./scripts.nix
     ./programs/sh.nix
     ./programs/firefox.nix
@@ -23,7 +22,6 @@
     ./programs/waybar.nix
     ./programs/languages/python.nix
     ./programs/languages/latex.nix
-
     ./configs/hypr/default.nix
   ];
 

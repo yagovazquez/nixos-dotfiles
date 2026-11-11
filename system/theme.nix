@@ -6,6 +6,27 @@ let
   # "vanilla" = unmodified tokyonight-night. Flip and `update` to apply.
   variant = "vanilla";
 
+  custom = {
+    scheme = "Tokyo Night Custom";
+    author = "Yago, adapted to base16";
+    slug = "tokyonight-custom";
+    base00 = "16161e"; # bg (using tokyonight's bg_dark) #16161e
+    base01 = "292e42"; # bg_highlight  #292e42
+    base02 = "263152"; # bg_visual/sel #263152
+    base03 = "565f89"; # comment, dim  #565f89
+    base04 = "a9b1d6"; # fg_dark       #a9b1d6
+    base05 = "c0caf5"; # fg            #c0caf5
+    base06 = "c0caf5"; # light fg      #c0caf5
+    base07 = "cdd5f7"; # lightest fg   #cdd5f7
+    base08 = "f7768e"; # red           #f7768e
+    base09 = "ff9e64"; # orange        #ff9e64
+    base0A = "e0af68"; # yellow        #e0af68
+    base0B = "00fa9a";                 #00FA9A      #2DC937
+    base0C = "7dcfff"; # cyan          #7dcfff
+    base0D = "7aa2f7"; # blue          #7aa2f7
+    base0E = "bb9af7"; # magenta/purp  #bb9af7
+    base0F = "db4b4b"; # rarely used   #db4b4b
+  };
   # Plain tokyonight-moon (https://github.com/folke/tokyonight.nvim), as a
   # base16 scheme. No longer the active scheme (see `night` below) — kept
   # around unused as a reference for what "moon" looked like.
@@ -31,18 +52,7 @@ let
     base0F = "c53b53"; # rarely used   #c53b53
   };
 
-  # tokyonight-night (https://github.com/folke/tokyonight.nvim), as a base16
-  # scheme — same palette family as moon, but swapped to the "night" accent
-  # set and, for base00, to tokyonight's own `bg_dark` (#16161e, the color it
-  # already uses for sidebars/floats) instead of its main `bg` (#1a1b26).
-  # `bg_dark` is darker and noticeably less blue-saturated than moon's
-  # #222436, while still reading as "tokyonight". base02 is recomputed with
   # tokyonight's own bg_visual formula (blend #3d59a1 at 40% onto base00) so
-  # selection highlight keeps the same relationship to the background that
-  # moon had. This single swap also raises bg/fg contrast across the board
-  # (checked with WCAG contrast ratios): fg 10.26:1 -> 11.14:1, fg_dark
-  # 4.61:1 -> 8.52:1 (good enough it no longer needs the override below),
-  # comment+override 7.17:1 -> 8.43:1.
   night = {
     scheme = "Tokyo Night";
     author = "folke/tokyonight.nvim, adapted to base16";
@@ -58,8 +68,7 @@ let
     base08 = "f7768e"; # red           #f7768e
     base09 = "ff9e64"; # orange        #ff9e64
     base0A = "e0af68"; # yellow        #e0af68
-    #base0B = "9ece6a"; # green        #9ece6a
-    base0B = "2dc937"; # dark green    #2DC937
+    base0B = "9ece6a"; # green         #9ece6a
     base0C = "7dcfff"; # cyan          #7dcfff
     base0D = "7aa2f7"; # blue          #7aa2f7
     base0E = "bb9af7"; # magenta/purp  #bb9af7
@@ -74,20 +83,6 @@ let
     base03 = "a3b0e0"; # #a3b0e0
   };
 
-  # mfd-mono (https://github.com/kungfusheep/mfd.nvim), adapted to base16.
-  # mfd is a genuinely monotone colorscheme family — it leans on weight/
-  # italics instead of hue for syntax highlighting — so base08-base0F here
-  # are just a grayscale ramp rather than real accent colors, to keep that
-  # black-and-white character. base00/01/02/03/05/07 are mfd-mono's actual
-  # bg/float_bg/visual/dim/fg/bright values; everything else is interpolated
-  # to fill out the base16 contract. Not active — set `base16Scheme = mfd;`
-  # below to try it.
-  # Text slots (03-0F) bumped brighter than mfd-mono's originals — the
-  # as-adapted values left some foreground text sitting too close in
-  # brightness to the backgrounds (base00-02), making contrast hard to
-  # pick out at a glance. Shifted the whole grayscale ramp up uniformly to
-  # keep its relative spacing (and the monotone, weight/italics-driven
-  # character) while giving every text slot more headroom over the bg.
   mfd = {
     scheme = "MFD Mono";
     author = "kungfusheep/mfd.nvim, adapted to base16";
@@ -110,9 +105,6 @@ let
     base0F = "606068"; # rarely used -> gray (brightened from #404048)
   };
 
-  # base16-gruvbox-dark-hard (https://github.com/morhetz/gruvbox), the
-  # standard base16 port by Dawid Kurek. Not active — set
-  # `base16Scheme = gruvbox;` below to try it.
   gruvbox = {
     scheme = "Gruvbox dark, hard";
     author = "Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)";
@@ -152,9 +144,11 @@ in
   stylix.autoEnable = false;
   stylix.targets.console.enable = true;
 
-  # Other schemes defined above (night, gruvbox) are ready to use — just
-  # swap `mfd` for one of them here.
-  stylix.base16Scheme = night;
+  #################
+  # Scheme on use #
+  #################
+
+  stylix.base16Scheme = custom;
   stylix.override = if variant == "personal" then personalOverride else { };
 
   stylix.fonts = {

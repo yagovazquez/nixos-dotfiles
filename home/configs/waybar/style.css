@@ -11,7 +11,7 @@
 @define-color separator #181a29;
 @define-color accent-active #bb9af7;
 @define-color urgent #f7768e;
-@define-color good #9ece6a;
+@define-color good #00fa9a;
 @define-color warn #e0af68;
 @define-color charging #73daca;
 @define-color muted #565f89;
@@ -21,7 +21,7 @@
 
 * {
   font-family: "MxPlus IBM VGA 9x16", monospace;
-  /* font-family: "Inconsolata Nerd Font Mono", monospace; */
+  /*font-family: "Inconsolata Nerd Font Mono", monospace;*/
   font-size: 13px;
   min-height: 0;
   padding: 0;
@@ -104,11 +104,11 @@ label:hover {
 }
 
 /* Battery states */
-#battery.good label     { color: @good; }
-#battery.warning label  { color: @warn; }
-#battery.critical label { color: @urgent; }
-#battery.charging label,
-#battery.plugged label  { color: @charging; }
+#battery.good     { color: @good; }
+#battery.warning  { color: @warn; }
+#battery.critical { color: @urgent; }
+#battery.charging,
+#battery.plugged  { color: @charging; }
 
 /* Audio mute state */
 #pulseaudio.muted { color: @muted; }

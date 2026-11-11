@@ -19,26 +19,6 @@
     })
 
     (pkgs.writeShellApplication {
-      name = "rofi-wallpaper";
-      runtimeInputs = with pkgs; [ rofi hyprpaper procps findutils ];
-      text = ''
-        WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
-        CHOICE=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f -printf '%f\n' | sort | rofi -dmenu -i -p "Wallpaper" || true)
-
-        if [ -n "$CHOICE" ]; then
-            # Kill hyprpaper if it was already running
-            pkill hyprpaper || true
-            # Generate temporary config
-            CONFIG="/tmp/hyprpaper.conf"
-            echo "preload = $WALLPAPER_DIR/$CHOICE" > "$CONFIG"
-            echo "wallpaper = ,$WALLPAPER_DIR/$CHOICE" >> "$CONFIG"
-            # Launch hyprpaper with the new config
-            hyprpaper -c "$CONFIG" &
-        fi
-      '';
-    })
-
-    (pkgs.writeShellApplication {
       name = "float-sdcv-kitty";
       runtimeInputs = with pkgs; [ rofi hyprland kitty sdcv less ];
       text = ''
@@ -92,6 +72,45 @@
         else
           xterm -e nvim "$path" &
         fi
+      '';
+    })
+
+    (pkgs.writeShellApplication {
+      name = "rofi-wallpaper";
+      runtimeInputs = with pkgs; [ rofi gnused procps util-linux ];
+      text = ''
+        WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+        HYPRPAPER_CONF="/home/agallas/nix-config/home/configs/hypr/hyprpaper.conf"
+
+        entry() {
+          # rofi dmenu icon protocol: text\0icon\x1f/path/to/icon.png
+          printf '%s\0icon\x1f%s\n' "$(basename "$1")" "$1"
+        }
+
+        chosen="$(
+          {
+            shopt -s nullglob nocaseglob
+            for f in "$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.jpeg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.webp; do
+              entry "$f"
+            done
+          } | rofi -dmenu -i -p "Wallpaper" -show-icons -selected-row 0 || true
+        )"
+
+        [ -z "''${chosen:-}" ] && exit 0
+
+        new_path="$WALLPAPER_DIR/$chosen"
+        [ -f "$new_path" ] || exit 0
+
+        sed -i \
+          -e "s|^preload = .*|preload = ''${new_path}|" \
+          -e "s|^    path = .*|    path = ''${new_path}|" \
+          "$HYPRPAPER_CONF"
+
+        # hyprpaper's IPC socket is unreliable for live reloads on this setup
+        # (it silently stops responding), so restart it to pick up the new config.
+        pkill -x hyprpaper || true
+        setsid hyprpaper >/dev/null 2>&1 &
+        disown
       '';
     })
 

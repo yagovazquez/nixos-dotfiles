@@ -64,6 +64,40 @@ require("lazy").setup({
       -- inherit cyan via "Special").
       hi(0, "@constructor", { fg = palette.base0E })
       hi(0, "@variable.builtin", { fg = palette.base08 })
+
+      -- "Delimiter" is base16's one group for all punctuation, and both
+      -- @punctuation.bracket and @punctuation.delimiter default-link to it
+      -- — so brackets and , . : currently share one color. Split them:
+      -- brackets fade into fg_dark (they're structural, not meaningful),
+      -- while delimiters and operators pick up the cyan accent instead of
+      -- base16's plain fg, so they read as punctuation rather than text.
+      hi(0, "Delimiter", { fg = palette.base04 })
+      hi(0, "@punctuation.bracket", { fg = palette.base04 })
+      hi(0, "Operator", { fg = palette.base0C })
+      hi(0, "@punctuation.delimiter", { fg = palette.base0C })
+      hi(0, "@operator", { fg = palette.base0C })
+
+      -- vis (like most terminal apps) renders every syntax color in bold —
+      -- Scintillua lexer themes default every non-neutral STYLE_* to
+      -- "...,bold" (see vis's own base-16.lua theme). mini.base16 leaves
+      -- all of these at regular weight, so the exact same colors read
+      -- visibly thinner here than they do in vis. Match the weight on the
+      -- groups that actually carry syntax color (not Comment, which stays
+      -- on the dim/neutral base03 by design, or Delimiter/@punctuation.
+      -- bracket, deliberately kept plain above).
+      for _, name in ipairs({
+        "Boolean", "Character", "Conditional", "Constant", "Debug", "Define",
+        "Exception", "Float", "Function", "Identifier", "Include", "Keyword",
+        "Label", "Macro", "Number", "Operator", "PreCondit", "PreProc",
+        "Repeat", "Special", "SpecialChar", "SpecialComment", "Statement",
+        "StorageClass", "String", "Structure", "Tag", "Todo", "Type", "Typedef",
+        "@constructor", "@operator", "@property", "@punctuation.delimiter",
+        "@variable.builtin",
+      }) do
+        local def = vim.api.nvim_get_hl(0, { name = name, link = false })
+        def.bold = true
+        hi(0, name, def)
+      end
     end
   },
 
@@ -181,6 +215,9 @@ require("lazy").setup({
       })
     end
   },
+
+  -- Multiple cursors (Ctrl-N to select word & add cursor, then edit all at once)
+  { "mg979/vim-visual-multi", branch = "master" },
 
   -- Comments & autopairs
   { "numToStr/Comment.nvim",
@@ -308,7 +345,17 @@ require("lazy").setup({
 
   -- ===== Core UX additions =====
   { "stevearc/dressing.nvim", opts = {} },
-  { "rcarriga/nvim-notify", config = function() vim.notify = require("notify") end },
+  { "rcarriga/nvim-notify",
+    config = function()
+      -- nvim-notify's default background_colour = "NotifyBackground" links to
+      -- "Normal", which we deliberately leave with no bg (see Normal above,
+      -- for terminal transparency) -- so notify can't tell what to blend
+      -- against and warns on every startup. Give it an explicit solid color.
+      local palette = require("config.theme").get()
+      require("notify").setup({ background_colour = palette.base00 })
+      vim.notify = require("notify")
+    end
+  },
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = { scope = { enabled = true } } },
   { "echasnovski/mini.surround", version = "*", opts = {} },
   { "echasnovski/mini.ai",       version = "*", opts = {} },

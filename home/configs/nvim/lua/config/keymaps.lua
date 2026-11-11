@@ -1,16 +1,13 @@
 -- QoL keymaps (moved from init.lua)
 local map = vim.keymap.set
 
--- Change word under cursor across its occurrences, like vis's "gx" (select
--- all matches, then "c" changes them all). Neovim has no live multi-cursor,
--- so this starts the edit on the first match via "cgn"; press "." to repeat
--- the same change on each following occurrence. Replaces the default
--- "gx" (open URL/file under cursor).
+-- Same as vis's "gx" (":x//<Left>"): prompts for a pattern, then drops a
+-- real cursor on every match in the file (via vim-visual-multi's VMSearch),
+-- so typing/"c" edits all of them at once. Replaces the default "gx" (open
+-- URL/file under cursor).
 map("n", "gx", function()
-  vim.fn.setreg("/", "\\<" .. vim.fn.expand("<cword>") .. "\\>")
-  vim.opt.hlsearch = true
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("cgn", true, false, true), "n", false)
-end, { desc = "Change word under cursor (repeat with .)" })
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(":%VMSearch ", true, false, true), "n", false)
+end, { desc = "Select all occurrences of a typed pattern (multi-cursor)" })
 
 -- LSP-related keymaps
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
