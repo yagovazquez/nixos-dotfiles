@@ -21,6 +21,12 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # qutebrowser 3.7.0 is flagged insecure upstream for still accepting
+  # eMudhra TLS certs; we don't rely on that CA, so allow it through.
+  nixpkgs.config.permittedInsecurePackages = [
+    "qutebrowser-3.7.0"
+  ];
+
   environment.systemPackages = with pkgs; [
      neovim      
      wget
