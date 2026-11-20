@@ -22,12 +22,7 @@
   };
 
 
-  # XMonad
   services.xserver.enable = true;
-  services.xserver.windowManager.xmonad = {
-    enable = true;
-    enableContribAndExtras = true;
-  };
 
 
 }

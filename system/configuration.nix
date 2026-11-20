@@ -35,6 +35,7 @@
      blueman  # bluetooth
      kitty
      pavucontrol
+     upower
      ];
 
   # For the ESP32 usage
@@ -47,8 +48,15 @@
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  # Garbage automatic collection
-  # nix.gc.automatic = true;
-  # nix.gc.dates = "03:15";
+  # Weekly cleanup: drop generations older than 14 days, then GC the store.
+  # (Without --delete-older-than, gc only removes unreferenced paths and
+  # never touches old generations, which is where the space goes.)
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+  # Hard-link identical files in the store.
+  nix.optimise.automatic = true;
 }
 

@@ -41,15 +41,9 @@ in
       height = 15;
       spacing = 4;
 
-      "modules-left" = [ "image" "hyprland/workspaces" "cpu" "memory" "custom/timer" ];
+      "modules-left" = [ "hyprland/workspaces" "cpu" "memory" "custom/timer" ];
       "modules-center" = [ "clock" ];
       "modules-right" = [ "battery" "backlight" "pulseaudio" "network" ];
-
-      image = {
-        path = "/home/agallas/nix-config/xfce4-workspaces.png";
-        size = 13;
-        tooltip = false;
-      };
 
       "hyprland/workspaces" = {
         format = "{icon}{id}";
