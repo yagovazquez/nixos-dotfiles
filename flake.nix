@@ -73,6 +73,7 @@
         # matching the machine's hostname, so these names = hostnames.
         nixosConfigurations = {
           laptop = mkHost ./hosts/laptop;
+          pc = mkHost ./hosts/pc;
         };
       };
 

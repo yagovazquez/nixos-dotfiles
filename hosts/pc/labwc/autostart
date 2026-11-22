@@ -1,0 +1,6 @@
+# PC ONLY: run by labwc at login.
+
+# Same wallpaper as Hyprland (whatever rofi-wallpaper picked last).
+swaybg -m fill -i "$(sed -n 's/^preload = //p' ~/.config/hypr/hyprpaper.conf)" >/dev/null 2>&1 &
+
+waybar -c ~/.config/waybar/labwc.jsonc >/dev/null 2>&1 &

@@ -20,6 +20,10 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Private network between my machines (laptop <-> PC), from anywhere.
+  # One-time per machine: `sudo tailscale up`, then log in.
+  services.tailscale.enable = true;
+
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;

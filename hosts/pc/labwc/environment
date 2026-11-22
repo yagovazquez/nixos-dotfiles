@@ -1,0 +1,5 @@
+# PC ONLY: environment for the labwc session.
+XKB_DEFAULT_LAYOUT=es
+XKB_DEFAULT_VARIANT=nodeadkeys
+XCURSOR_THEME=Apple-X-Cursor
+XCURSOR_SIZE=22

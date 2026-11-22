@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+  PC ONLY: labwc, the lightweight session. Live-linked: after editing,
+  run `labwc --reconfigure` (or root menu → Reload config). No rebuild needed.
+  Docs: `man labwc-config`. Mouse: default bindings (drag titlebar to move,
+  Alt+drag anywhere, right-click the desktop for the menu).
+-->
+<labwc_config>
+  <core>
+    <gap>0</gap>
+  </core>
+
+  <theme>
+    <cornerRadius>0</cornerRadius>
+    <font place=""><name>Noto Sans</name><size>11</size></font>
+  </theme>
+
+  <keyboard>
+    <!-- Same keys as Hyprland where it makes sense -->
+    <keybind key="W-Return"><action name="Execute" command="ghostty" /></keybind>
+    <keybind key="W-p"><action name="Execute" command="rofi -show drun" /></keybind>
+    <keybind key="W-f"><action name="Execute" command="firefox" /></keybind>
+    <keybind key="W-S-f"><action name="Execute" command="thunar" /></keybind>
+    <keybind key="W-c"><action name="Close" /></keybind>
+    <!-- rofi-power's "Logout" is Hyprland-only; use W-S-q (or the menu) here -->
+    <keybind key="W-S-e"><action name="Execute" command="rofi-power" /></keybind>
+    <keybind key="W-S-q"><action name="Exit" /></keybind>
+
+    <!-- Windows -->
+    <keybind key="A-Tab"><action name="NextWindow" /></keybind>
+    <keybind key="A-S-Tab"><action name="PreviousWindow" /></keybind>
+    <keybind key="A-F4"><action name="Close" /></keybind>
+    <keybind key="W-Up"><action name="ToggleMaximize" /></keybind>
+    <keybind key="W-Down"><action name="Iconify" /></keybind>
+    <keybind key="W-Left"><action name="SnapToEdge" direction="left" /></keybind>
+    <keybind key="W-Right"><action name="SnapToEdge" direction="right" /></keybind>
+    <keybind key="W-F11"><action name="ToggleFullscreen" /></keybind>
+
+    <!-- Volume, same as Hyprland -->
+    <keybind key="W-F1"><action name="Execute" command="pamixer -t" /></keybind>
+    <keybind key="W-F2"><action name="Execute" command="pamixer -d 5" /></keybind>
+    <keybind key="W-F3"><action name="Execute" command="pamixer -i 5" /></keybind>
+
+    <keybind key="Print">
+      <action name="Execute" command="sh -c 'grim ~/Pictures/screenshot-$(date +%F_%H-%M-%S).png'" />
+    </keybind>
+  </keyboard>
+</labwc_config>

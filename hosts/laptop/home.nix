@@ -1,9 +1,32 @@
 # LAPTOP ONLY home-manager config, layered on top of the shared home/home.nix.
-{ ... }:
+{ pkgs, ... }:
 
 {
   # Release of the first home-manager install on this machine. Never change it.
   home.stateVersion = "25.05";
+
+  home.packages = [
+    # Rebuild the PC from the laptop: pushes to GitHub, then over SSH the PC
+    # pulls into its own ~/nix-config and builds there. That keeps the PC's
+    # clone in sync and nothing PC-only is ever downloaded onto the laptop.
+    (pkgs.writeShellApplication {
+      name = "deploy-pc";
+      runtimeInputs = with pkgs; [ git openssh ];
+      text = ''
+        # Usage: deploy-pc [switch|test|boot]   (default: switch)
+        action="''${1:-switch}"
+        repo="$HOME/nix-config"
+
+        if [ -n "$(git -C "$repo" status --porcelain)" ]; then
+          echo "Uncommitted changes in $repo; commit them first (the PC only sees what's pushed)." >&2
+          exit 1
+        fi
+
+        git -C "$repo" push
+        ssh -t pc "cd ~/nix-config && git pull --ff-only && sudo nixos-rebuild $action --flake path:\$HOME/nix-config"
+      '';
+    })
+  ];
 
   # Spliced into home/configs/hypr/hyprland.lua in place of __MONITORS__.
   my.hyprland.monitors = ''
