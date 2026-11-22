@@ -52,6 +52,11 @@ Verify before handing over:
 
 ## Working with the user
 
+- **Ask before changing the other machine.** Check `hostname` to see which machine this session is on. Before any change that would affect the *other* one, say what would change there and wait for a yes. That means:
+  - anything in its `hosts/<name>/`;
+  - anything in shared `system/` or `home/` that changes its build.
+
+  Changes that touch only the current machine don't need this. If unsure whether a shared edit leaks, evaluate the other host's `drvPath` before and after the edit. If it doesn't change, the other machine is unaffected.
 - Claude Code runs in a terminal inside the user's desktop session. **Never plan a reboot or logout mid-task**, because it kills the conversation. Use `switch` or `test` instead. If a reboot is truly needed, put it last and tell the user to resume with `cd ~/nix-config && claude --continue`.
 - For commands the user pastes:
   - one command per line, no `\` line continuations;
