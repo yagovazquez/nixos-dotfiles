@@ -1,5 +1,8 @@
 # PC ONLY: run by labwc at login.
 
+# The AOC defaults to 60 Hz; it does 144 Hz (Hyprland gets this from hosts/pc/home.nix).
+wlr-randr --output HDMI-A-1 --mode 1920x1080@144Hz >/dev/null 2>&1
+
 # Same wallpaper as Hyprland (whatever rofi-wallpaper picked last).
 swaybg -m fill -i "$(sed -n 's/^preload = //p' ~/.config/hypr/hyprpaper.conf)" >/dev/null 2>&1 &
 

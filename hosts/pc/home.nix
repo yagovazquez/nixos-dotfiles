@@ -10,11 +10,13 @@ in
   # Release of the first home-manager install on this machine. Never change it.
   home.stateVersion = "26.05";
 
-  # Monitors: the shared default (any monitor, preferred mode) for now.
-  # After the first boot, run `hyprctl monitors all` and set the real ones:
-  # my.hyprland.monitors = ''
-  #   hl.monitor({ output = "...", mode = "1920x1080@144", position = "0x0", scale = "1" })
-  # '';
+  # Spliced into home/configs/hypr/hyprland.lua in place of __MONITORS__.
+  # The AOC's EDID prefers 60 Hz; it does 144 Hz over HDMI, so ask for it.
+  # (labwc sets the same mode in ./labwc/autostart.)
+  my.hyprland.monitors = ''
+    hl.monitor({ output = "desc:AOC 24G2W1G4 0x00009CC8", mode = "1920x1080@144", position = "0x0", scale = "1" })
+    hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
+  '';
 
   # --- labwc (the lightweight session) ---
   xdg.configFile."labwc/rc.xml".source = link "rc.xml";

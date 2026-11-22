@@ -16,6 +16,7 @@ in
   environment.systemPackages = with pkgs; [
     swaybg # wallpaper (hyprpaper is Hyprland-only)
     grim   # screenshots
+    wlr-randr # monitor mode (144 Hz), see ./labwc/autostart
   ];
 
   # Login screen: F3 picks the session; the last one picked is remembered.
