@@ -23,6 +23,5 @@
     steam-run # `steam-run ./game` for Linux games downloaded from the web
     heroic    # GOG / Epic / Amazon launcher
     lutris    # everything else, Windows installers included
-    mangohud  # FPS overlay: `mangohud %command%` in Steam launch options
   ];
 }

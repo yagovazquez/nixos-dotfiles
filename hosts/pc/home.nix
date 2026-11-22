@@ -37,25 +37,6 @@ in
     };
   };
 
-  # --- MangoHud: in-game FPS/GPU/CPU overlay ---
-  # Per game in Steam: Properties → Launch options: `mangohud %command%`.
-  # Right Shift + F12 hides/shows it.
-  programs.mangohud = {
-    enable = true;
-    settings = {
-      fps = true;
-      frame_timing = true;
-      gpu_stats = true;
-      gpu_temp = true;
-      vram = true;
-      cpu_stats = true;
-      cpu_temp = true;
-      ram = true;
-      position = "top-left";
-      toggle_hud = "Shift_R+F12";
-    };
-  };
-
   # --- labwc (the lightweight session) ---
   xdg.configFile."labwc/rc.xml".source = link "rc.xml";
   xdg.configFile."labwc/menu.xml".source = link "menu.xml";
