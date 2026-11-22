@@ -36,13 +36,6 @@
     -- The TV overscans (crops the edges); `reserved` keeps windows/waybar inside the
     -- visible area (measured with a test pattern). Set to 0 if the TV's picture
     -- format is switched to "Sin escala"/unscaled.
-    hl.monitor({
-        output = "desc:Philips Consumer Electronics Company Philips FTV 0x01010101",
-        mode = "1920x1080@60",
-        position = "1366x0",
-        scale = "1",
-        reserved = { top = 20, right = 60, bottom = 40, left = 60 },
-    })
   '';
 
   # Only a laptop has a battery and a backlight to show.
