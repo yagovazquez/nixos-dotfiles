@@ -1,8 +1,18 @@
 # PC ONLY home-manager config, layered on top of the shared home/home.nix.
-{ config, ... }:
+{ config, pkgs, ... }:
 
 let
   c = config.lib.stylix.colors.withHashtag;
+
+  # One long-running nvidia-smi that prints a line every 5 s (cheaper than
+  # spawning it every interval while gaming); each line becomes Waybar JSON.
+  waybarGpu = pkgs.writeShellScript "waybar-gpu" ''
+    nvidia-smi --query-gpu=utilization.gpu,temperature.gpu,memory.used,memory.total \
+      --format=csv,noheader,nounits -l 5 |
+    while IFS=', ' read -r util temp used total; do
+      printf '{"text":"GPU: %s%% %s°C","tooltip":"VRAM: %s / %s MiB"}\n' "$util" "$temp" "$used" "$total"
+    done
+  '';
   # Live-editable, like nvim: edit hosts/pc/labwc/* and run `labwc --reconfigure`.
   link = f: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/hosts/pc/labwc/${f}";
 in
@@ -17,6 +27,34 @@ in
     hl.monitor({ output = "desc:AOC 24G2W1G4 0x00009CC8", mode = "1920x1080@144", position = "0x0", scale = "1" })
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
   '';
+
+  # --- Waybar: GPU next to CPU/RAM ---
+  programs.waybar.settings.mainBar = {
+    "modules-left" = [ "hyprland/workspaces" "cpu" "memory" "custom/gpu" "custom/timer" ];
+    "custom/gpu" = {
+      exec = "${waybarGpu}";
+      "return-type" = "json";
+    };
+  };
+
+  # --- MangoHud: in-game FPS/GPU/CPU overlay ---
+  # Per game in Steam: Properties → Launch options: `mangohud %command%`.
+  # Right Shift + F12 hides/shows it.
+  programs.mangohud = {
+    enable = true;
+    settings = {
+      fps = true;
+      frame_timing = true;
+      gpu_stats = true;
+      gpu_temp = true;
+      vram = true;
+      cpu_stats = true;
+      cpu_temp = true;
+      ram = true;
+      position = "top-left";
+      toggle_hud = "Shift_R+F12";
+    };
+  };
 
   # --- labwc (the lightweight session) ---
   xdg.configFile."labwc/rc.xml".source = link "rc.xml";
@@ -48,7 +86,7 @@ in
   # Waybar for labwc: the same bar, but with a window list instead of
   # Hyprland's workspaces (that module only works under Hyprland).
   xdg.configFile."waybar/labwc.jsonc".text = builtins.toJSON (config.programs.waybar.settings.mainBar // {
-    "modules-left" = [ "wlr/taskbar" "cpu" "memory" "custom/timer" ];
+    "modules-left" = [ "wlr/taskbar" "cpu" "memory" "custom/gpu" "custom/timer" ];
     "wlr/taskbar" = {
       format = "{title:.30}";
       "on-click" = "activate";

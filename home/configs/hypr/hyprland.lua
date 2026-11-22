@@ -88,7 +88,7 @@ hl.config({
         disable_splash_rendering = true,
     },
     input = {
-        kb_layout = "es",
+        kb_layout = "__KB_LAYOUT__",
         follow_mouse = 1,
         sensitivity = 0,
         touchpad = {

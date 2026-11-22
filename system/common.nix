@@ -48,14 +48,15 @@
     LC_TIME = "es_ES.UTF-8";
   };
 
-  # Configure keymap in X11
+  # Keyboard layout. mkDefault: a host with another keyboard overrides these
+  # (the PC is US, see hosts/pc/default.nix). Hyprland reads `layout` too.
   services.xserver.xkb = {
-    layout = "es";
-    variant = "nodeadkeys";
+    layout = lib.mkDefault "es";
+    variant = lib.mkDefault "nodeadkeys";
   };
 
-  # Configure console keymap
-  console.keyMap = "es";
+  # Console keymap (also the login screen, tuigreet).
+  console.keyMap = lib.mkDefault "es";
 
   programs.zsh.enable = true;
 

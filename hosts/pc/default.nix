@@ -17,6 +17,11 @@
 
   networking.hostName = "pc";
 
+  # Keyboard: Ziyoulang T8, US (ANSI) layout. The laptop is Spanish
+  # (system/common.nix). Hyprland follows this; labwc: ./labwc/environment.
+  services.xserver.xkb = { layout = "us"; variant = ""; };
+  console.keyMap = "us";
+
   # HDD partition "Games-slow" (btrfs, kept from CachyOS): Steam library,
   # datasets. `nofail`: if the HDD dies or is unplugged, the PC still boots,
   # just without /data. The rest of the HDD is Windows' (left untouched).

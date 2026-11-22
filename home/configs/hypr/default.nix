@@ -1,13 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, osConfig, ... }:
 let
 	colors = config.lib.stylix.colors;
 	hyprlandLua = builtins.replaceStrings
-		[ "__ACTIVE_BORDER__" "__INACTIVE_BORDER__" "__SHADOW_COLOR__" "--[[__MONITORS__]]" ]
+		[ "__ACTIVE_BORDER__" "__INACTIVE_BORDER__" "__SHADOW_COLOR__" "--[[__MONITORS__]]" "__KB_LAYOUT__" ]
 		[
 			"rgba(${colors.base0D}ff)"
 			"rgba(${colors.base03}ff)"
 			"rgba(${colors.base00}ee)"
 			config.my.hyprland.monitors
+			osConfig.services.xserver.xkb.layout
 		]
 		(builtins.readFile ./hyprland.lua);
 in

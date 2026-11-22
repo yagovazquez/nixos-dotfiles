@@ -41,7 +41,8 @@ in
       height = 15;
       spacing = 4;
 
-      "modules-left" = [ "hyprland/workspaces" "cpu" "memory" "custom/timer" ];
+      # mkDefault: the PC adds a GPU module in hosts/pc/home.nix.
+      "modules-left" = lib.mkDefault [ "hyprland/workspaces" "cpu" "memory" "custom/timer" ];
       "modules-center" = [ "clock" ];
       # mkDefault: the laptop adds battery/backlight in hosts/laptop/home.nix.
       "modules-right" = lib.mkDefault [ "pulseaudio" "network" ];
