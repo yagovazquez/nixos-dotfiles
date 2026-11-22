@@ -43,7 +43,8 @@ in
 
       "modules-left" = [ "hyprland/workspaces" "cpu" "memory" "custom/timer" ];
       "modules-center" = [ "clock" ];
-      "modules-right" = [ "battery" "backlight" "pulseaudio" "network" ];
+      # mkDefault: the laptop adds battery/backlight in hosts/laptop/home.nix.
+      "modules-right" = lib.mkDefault [ "pulseaudio" "network" ];
 
       "hyprland/workspaces" = {
         format = "{icon}{id}";

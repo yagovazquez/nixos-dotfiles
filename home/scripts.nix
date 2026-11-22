@@ -118,7 +118,8 @@
       name = "rofi-nixos-update";
       runtimeInputs = with pkgs; [ rofi hyprland kitty git gnused ];
       text = ''
-        FLAKE="path:/home/agallas/nix-config#nixos"
+        # No `#name`: nixos-rebuild picks the config matching this machine's hostname.
+        FLAKE="path:/home/agallas/nix-config"
         FLAKE_DIR="/home/agallas/nix-config"
         # Icons live in configs/rofi/icons (also under ~/.config/rofi/icons after HM)
         ICON_DIR="${./configs/rofi/icons}"

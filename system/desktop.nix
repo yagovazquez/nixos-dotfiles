@@ -5,7 +5,9 @@
   services.greetd.settings = {
     default_session = {
       #command = "tuigreet --remember --time --cmd 'dbus-run-session Hyprland'";
-      command = "tuigreet --remember --time --cmd 'dbus-run-session start-hyprland'";
+      # mkDefault: a host with more than one session (the PC) replaces this
+      # with a greeter that lets you pick.
+      command = lib.mkDefault "tuigreet --remember --time --cmd 'dbus-run-session start-hyprland'";
       user = "agallas";
     };
   };

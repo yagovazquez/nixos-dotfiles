@@ -5,7 +5,7 @@
   programs.home-manager.enable = true;
   home.username = "agallas";
   home.homeDirectory = "/home/agallas";
-  home.stateVersion = "25.05";
+  # home.stateVersion is set per machine, in hosts/<name>/home.nix.
 
   imports = [
     ./theme.nix

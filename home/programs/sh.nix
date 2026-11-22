@@ -25,7 +25,8 @@
 
         #help = "bat ~/Desktop/comandos_terminal.txt";
         #helpvim = "bat ~/Desktop/comandos_neovim.txt";
-        update = "sudo nixos-rebuild switch --flake 'path:/home/agallas/nix-config#nixos'";
+        # No `#name`: nixos-rebuild picks the config matching this machine's hostname.
+        update = "sudo nixos-rebuild switch --flake 'path:/home/agallas/nix-config'";
         #updatehome-safe = "home-manager switch --flake 'path:/home/agallas/nix-config#agallas'";
         #updatehome = "home-manager switch --flake ~/nix-config#agallas";
         megaupdate = "nix flake update --flake /home/agallas/nix-config";

@@ -1,9 +1,10 @@
+# SHARED by every machine (laptop and PC). Machine-specific settings,
+# including hardware and stateVersion, live in hosts/<name>/.
 { config, pkgs, ... }:
 
 {
   imports =
     [
-      ./hardware-configuration.nix
       ./desktop.nix
       ./common.nix
       ./theme.nix
@@ -38,15 +39,11 @@
      upower
      ];
 
-  # For the ESP32 usage
-  services.udev.packages = with pkgs; [ platformio-core.udev ];
   programs.nix-ld.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  system.stateVersion = "25.05"; # Did you read the comment?
 
   # Weekly cleanup: drop generations older than 14 days, then GC the store.
   # (Without --delete-older-than, gc only removes unreferenced paths and
