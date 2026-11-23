@@ -28,9 +28,9 @@ in
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
   '';
 
-  # --- Waybar: GPU next to CPU/RAM ---
+  # --- Waybar: GPU on the right, left of volume ---
   programs.waybar.settings.mainBar = {
-    "modules-left" = [ "hyprland/workspaces" "cpu" "memory" "custom/gpu" "custom/timer" ];
+    "modules-right" = [ "custom/gpu" "pulseaudio" "network" ];
     "custom/gpu" = {
       exec = "${waybarGpu}";
       "return-type" = "json";
@@ -67,7 +67,7 @@ in
   # Waybar for labwc: the same bar, but with a window list instead of
   # Hyprland's workspaces (that module only works under Hyprland).
   xdg.configFile."waybar/labwc.jsonc".text = builtins.toJSON (config.programs.waybar.settings.mainBar // {
-    "modules-left" = [ "wlr/taskbar" "cpu" "memory" "custom/gpu" "custom/timer" ];
+    "modules-left" = [ "wlr/taskbar" "cpu" "memory" "custom/timer" ];
     "wlr/taskbar" = {
       format = "{title:.30}";
       "on-click" = "activate";
