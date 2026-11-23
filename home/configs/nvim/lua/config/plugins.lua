@@ -361,8 +361,8 @@ require("lazy").setup({
   { "echasnovski/mini.ai",       version = "*", opts = {} },
   { "folke/persistence.nvim", event = "BufReadPre", opts = {} },
 
-  -- null-ls for formatters/linters (will only enable formatters found on PATH)
-  { "jose-elias-alvarez/null-ls.nvim",
+  -- none-ls (maintained null-ls fork) for formatters/linters (will only enable formatters found on PATH)
+  { "nvimtools/none-ls.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local ok, null_ls = pcall(require, "null-ls")
