@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <!--
   PC ONLY: labwc, the lightweight session. Live-linked: after editing,
-  run `labwc --reconfigure` (or root menu → Reload config). No rebuild needed.
+  run `labwc -r` (or root menu → Reload config). No rebuild needed.
   Docs: `man labwc-config`. Mouse: default bindings (drag titlebar to move,
   Alt+drag anywhere, right-click the desktop for the menu).
 -->
 <labwc_config>
   <core>
     <gap>0</gap>
+    <!-- FreeSync/VRR (AOC over DisplayPort), only for fullscreen windows (games) -->
+    <adaptiveSync>fullscreen</adaptiveSync>
   </core>
 
   <theme>
