@@ -25,5 +25,6 @@
     lutris    # everything else, Windows installers included
     qbittorrent
     proton-vpn
+    prismlauncher
   ];
 }
