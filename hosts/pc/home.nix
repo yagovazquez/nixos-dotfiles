@@ -38,6 +38,11 @@ in
     "media.av1.enabled" = false;
   };
 
+  # --- mpv: decode on the GPU (mpv's default is the CPU) ---
+  xdg.configFile."mpv/mpv.conf".text = ''
+    hwdec=auto-safe
+  '';
+
   # --- Waybar: GPU on the right, left of volume ---
   programs.waybar.settings.mainBar = {
     "modules-right" = [ "custom/gpu" "pulseaudio" "network" ];

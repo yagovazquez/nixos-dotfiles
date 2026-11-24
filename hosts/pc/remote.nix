@@ -39,7 +39,18 @@
     capSysAdmin = false;
     # Only on demand: `empezar` on the laptop runs `start-sunshine` here.
     autoStart = false;
+    # Fixed instead of probed: probing the screen-sharing portal timed out
+    # for ~25 s at startup, and if NVENC ever breaks, Sunshine fails loudly
+    # instead of silently encoding on the CPU (libx264). With settings
+    # here, its web UI can't save config changes.
+    settings = {
+      capture = "wlr";
+      encoder = "nvenc";
+    };
   };
+  # Keep CUDA's perf boost while streaming (it's off for the rest of the
+  # session, ./nvidia.nix): encoder latency matters more than ~20 W here.
+  systemd.user.services.sunshine.serviceConfig.UnsetEnvironment = [ "CUDA_DISABLE_PERF_BOOST" ];
   # No LD_LIBRARY_PATH needed for NVENC: the CUDA build finds the driver's
   # libcuda.so.1 through its RUNPATH (/run/opengl-driver/lib), and its
   # wrapper overwrites LD_LIBRARY_PATH anyway.

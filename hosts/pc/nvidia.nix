@@ -1,5 +1,5 @@
 # PC ONLY: NVIDIA GTX 1060 (a "Pascal" card), the PC's only GPU.
-{ config, pkgs, ... }:
+{ config, ... }:
 
 {
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -19,8 +19,9 @@
     powerManagement.enable = true;
   };
 
-  # Hardware video decoding (mpv, Firefox) through VA-API.
-  hardware.graphics.extraPackages = [ pkgs.nvidia-vaapi-driver ];
+  # Hardware video decoding (mpv, Firefox) goes through VA-API with
+  # nvidia-vaapi-driver, which the NixOS NVIDIA module already installs
+  # (hardware.nvidia.videoAcceleration, on by default).
 
   # From Hyprland's NVIDIA page; harmless for labwc.
   environment.sessionVariables = {
@@ -31,5 +32,10 @@
     # the driver's /dev/nvidia* devices (nvidia-vaapi-driver's README).
     # Firefox's prefs for it are in ./home.nix.
     MOZ_DISABLE_RDD_SANDBOX = "1";
+    # nvidia-vaapi-driver decodes through CUDA, and CUDA forces the GPU up
+    # to P2: a 1080p video kept it at 1506 MHz and ~27 W. With this it stays
+    # at P8 (~9 W); clocks still rise under real load. Sunshine keeps the
+    # boost (./remote.nix). Needs driver 580.105.08 or newer.
+    CUDA_DISABLE_PERF_BOOST = "1";
   };
 }
