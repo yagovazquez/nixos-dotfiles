@@ -22,19 +22,27 @@
   ];
 
   # --- Sunshine (game streaming host) ---
+  # CUDA is built only for the GTX 1060's compute capability (6.1, Pascal):
+  # nixpkgs' default list starts at 7.5 and leaves Pascal out. Stay on the
+  # default cudaPackages (12.9): CUDA 13 dropped Pascal.
+  nixpkgs.config.cudaCapabilities = [ "6.1" ];
+
   services.sunshine = {
     enable = true;
+    # With CUDA, NVENC encodes the captured frames straight from video
+    # memory. Without it Sunshine copies each frame GPU -> RAM -> GPU
+    # (~1.5 CPU cores at 1080p60).
+    package = pkgs.sunshine.override { cudaSupport = true; };
     # Ports stay closed on the LAN, opened on tailscale0 below.
     openFirewall = false;
-    # Off: it's only for KMS capture (wlroots screencopy works here), and a
-    # capability binary ignores LD_LIBRARY_PATH, which NVENC needs (below).
+    # Off: it's only for KMS capture, and wlroots screencopy works here.
     capSysAdmin = false;
     # Only on demand: `empezar` on the laptop runs `start-sunshine` here.
     autoStart = false;
   };
-  # NVENC (GPU encoding) loads libcuda.so.1 from the driver at runtime;
-  # without this Sunshine falls back to CPU encoding (libx264).
-  systemd.user.services.sunshine.environment.LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+  # No LD_LIBRARY_PATH needed for NVENC: the CUDA build finds the driver's
+  # libcuda.so.1 through its RUNPATH (/run/opengl-driver/lib), and its
+  # wrapper overwrites LD_LIBRARY_PATH anyway.
 
   # Moonlight is added by hand over Tailscale; no need to announce the PC on the LAN.
   services.avahi.enable = false;
