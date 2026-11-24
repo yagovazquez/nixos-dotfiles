@@ -29,6 +29,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar &")
     -- mako is started by its systemd user service (services.mako.enable)
     -- hl.exec_cmd("anki-bin &")
+    --[[__AUTOSTART__]]
 end)
 
 -----------------------------

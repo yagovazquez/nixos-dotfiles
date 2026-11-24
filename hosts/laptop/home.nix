@@ -6,6 +6,10 @@
   home.stateVersion = "25.05";
 
   home.packages = [
+    # Watch the PC's screen / play its games, streamed by Sunshine
+    # (hosts/pc/remote.nix). Add the host by hand: `pc`.
+    pkgs.moonlight-qt
+
     # Rebuild the PC from the laptop: pushes to GitHub, then over SSH the PC
     # pulls into its own ~/nix-config and builds there. That keeps the PC's
     # clone in sync and nothing PC-only is ever downloaded onto the laptop.

@@ -28,6 +28,11 @@ in
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
   '';
 
+  # Game streaming to the laptop (see ../remote.nix). labwc: ./labwc/autostart.
+  my.hyprland.autostart = ''
+    hl.exec_cmd("start-sunshine")
+  '';
+
   # --- Waybar: GPU on the right, left of volume ---
   programs.waybar.settings.mainBar = {
     "modules-right" = [ "custom/gpu" "pulseaudio" "network" ];

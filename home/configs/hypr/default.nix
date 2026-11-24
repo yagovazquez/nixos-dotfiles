@@ -2,12 +2,15 @@
 let
 	colors = config.lib.stylix.colors;
 	hyprlandLua = builtins.replaceStrings
-		[ "__ACTIVE_BORDER__" "__INACTIVE_BORDER__" "__SHADOW_COLOR__" "--[[__MONITORS__]]" "__KB_LAYOUT__" ]
+		# The autostart placeholder takes its whole line, so with nothing to add
+		# the generated file is the same as without it.
+		[ "__ACTIVE_BORDER__" "__INACTIVE_BORDER__" "__SHADOW_COLOR__" "--[[__MONITORS__]]" "    --[[__AUTOSTART__]]\n" "__KB_LAYOUT__" ]
 		[
 			"rgba(${colors.base0D}ff)"
 			"rgba(${colors.base03}ff)"
 			"rgba(${colors.base00}ee)"
 			config.my.hyprland.monitors
+			config.my.hyprland.autostart
 			osConfig.services.xserver.xkb.layout
 		]
 		(builtins.readFile ./hyprland.lua);
@@ -20,6 +23,12 @@ in
 			hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
 		'';
 		description = "Lua hl.monitor(...) rules for this machine, spliced into hyprland.lua at __MONITORS__.";
+	};
+
+	options.my.hyprland.autostart = lib.mkOption {
+		type = lib.types.lines;
+		default = "";
+		description = "Extra Lua run at Hyprland start on this machine, spliced into hyprland.lua at __AUTOSTART__.";
 	};
 
 	config = {
