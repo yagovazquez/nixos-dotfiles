@@ -26,13 +26,18 @@
     enable = true;
     # Ports stay closed on the LAN, opened on tailscale0 below.
     openFirewall = false;
-    # Needed for KMS capture, the fallback when Wayland screen capture fails.
-    capSysAdmin = true;
+    # Off: it's only for KMS capture (wlroots screencopy works here), and a
+    # capability binary ignores LD_LIBRARY_PATH, which NVENC needs (below).
+    capSysAdmin = false;
     # Its unit starts with graphical-session.target, which our greetd
     # sessions never reach. The compositors run `start-sunshine` instead
     # (Hyprland: my.hyprland.autostart in ./home.nix; labwc: ./labwc/autostart).
     autoStart = false;
   };
+  # NVENC (GPU encoding) loads libcuda.so.1 from the driver at runtime;
+  # without this Sunshine falls back to CPU encoding (libx264).
+  systemd.user.services.sunshine.environment.LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+
   # Moonlight is added by hand over Tailscale; no need to announce the PC on the LAN.
   services.avahi.enable = false;
 
