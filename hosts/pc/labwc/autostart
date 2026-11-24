@@ -7,6 +7,3 @@ wlr-randr --output HDMI-A-1 --mode 1920x1080@144Hz >/dev/null 2>&1
 swaybg -m fill -i "$(sed -n 's/^preload = //p' ~/.config/hypr/hyprpaper.conf)" >/dev/null 2>&1 &
 
 waybar -c ~/.config/waybar/labwc.jsonc >/dev/null 2>&1 &
-
-# Game streaming to the laptop (hosts/pc/remote.nix).
-start-sunshine >/dev/null 2>&1 &

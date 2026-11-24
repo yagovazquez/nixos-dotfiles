@@ -32,6 +32,9 @@
     })
   ];
 
+  # Start Sunshine on the PC before opening Moonlight (hosts/pc/remote.nix).
+  programs.zsh.shellAliases.empezar = "ssh pc start-sunshine";
+
   # Spliced into home/configs/hypr/hyprland.lua in place of __MONITORS__.
   my.hyprland.monitors = ''
     hl.monitor({ output = "eDP-1", mode = "1366x768", position = "0x0", scale = "1" })

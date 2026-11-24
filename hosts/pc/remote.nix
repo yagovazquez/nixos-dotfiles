@@ -29,9 +29,7 @@
     # Off: it's only for KMS capture (wlroots screencopy works here), and a
     # capability binary ignores LD_LIBRARY_PATH, which NVENC needs (below).
     capSysAdmin = false;
-    # Its unit starts with graphical-session.target, which our greetd
-    # sessions never reach. The compositors run `start-sunshine` instead
-    # (Hyprland: my.hyprland.autostart in ./home.nix; labwc: ./labwc/autostart).
+    # Only on demand: `empezar` on the laptop runs `start-sunshine` here.
     autoStart = false;
   };
   # NVENC (GPU encoding) loads libcuda.so.1 from the driver at runtime;
@@ -41,14 +39,27 @@
   # Moonlight is added by hand over Tailscale; no need to announce the PC on the LAN.
   services.avahi.enable = false;
 
-  # Hands the session's Wayland display to the user unit, then (re)starts it,
-  # so it always captures the session that's logged in now.
+  # Hands the logged-in session's Wayland display to the user unit, then
+  # (re)starts it. Usually run over SSH, where WAYLAND_DISPLAY isn't set, so
+  # it finds the session's socket itself. Stop it: `systemctl --user stop sunshine`.
   environment.systemPackages = [
     (pkgs.writeShellApplication {
       name = "start-sunshine";
       text = ''
-        systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE HYPRLAND_INSTANCE_SIGNATURE
+        if [ -z "''${WAYLAND_DISPLAY:-}" ]; then
+          for s in "$XDG_RUNTIME_DIR"/wayland-*; do
+            case "$s" in *.lock) continue ;; esac
+            [ -S "$s" ] && WAYLAND_DISPLAY=$(basename "$s") && break
+          done
+        fi
+        if [ -z "''${WAYLAND_DISPLAY:-}" ]; then
+          echo "El PC no tiene sesión iniciada (Hyprland o labwc); inicia sesión y vuelve a probar." >&2
+          exit 1
+        fi
+        export WAYLAND_DISPLAY
+        systemctl --user import-environment WAYLAND_DISPLAY
         systemctl --user restart sunshine
+        echo "Sunshine arrancado en el PC. Abre Moonlight."
       '';
     })
   ];
