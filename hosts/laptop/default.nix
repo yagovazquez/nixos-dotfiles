@@ -11,6 +11,11 @@
 
   networking.hostName = "laptop";
 
+  # VA-API driver for the HD 620 (Kaby Lake), so video decodes on the GPU:
+  # Moonlight, browsers, mpv. Without it they all decode on the CPU.
+  hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
+  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
+
   # For the ESP32 usage
   services.udev.packages = with pkgs; [ platformio-core.udev ];
 
