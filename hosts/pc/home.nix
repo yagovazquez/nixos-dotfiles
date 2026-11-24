@@ -28,6 +28,16 @@ in
     hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "1" })
   '';
 
+  # --- Firefox: hardware video decoding (nvidia-vaapi-driver, ./nvidia.nix) ---
+  # Merged with the shared prefs in home/programs/firefox.nix.
+  programs.firefox.profiles."3z7tqry0.default".settings = {
+    # Firefox blocks VA-API on NVIDIA by default; this overrides that.
+    "media.hardware-video-decoding.force-enabled" = true;
+    # The GTX 1060 can't decode AV1. With AV1 off, YouTube sends VP9,
+    # which it can.
+    "media.av1.enabled" = false;
+  };
+
   # --- Waybar: GPU on the right, left of volume ---
   programs.waybar.settings.mainBar = {
     "modules-right" = [ "custom/gpu" "pulseaudio" "network" ];

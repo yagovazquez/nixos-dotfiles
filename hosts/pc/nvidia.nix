@@ -27,5 +27,9 @@
     LIBVA_DRIVER_NAME = "nvidia";
     NVD_BACKEND = "direct";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # Firefox decodes video in its sandboxed RDD process, which can't reach
+    # the driver's /dev/nvidia* devices (nvidia-vaapi-driver's README).
+    # Firefox's prefs for it are in ./home.nix.
+    MOZ_DISABLE_RDD_SANDBOX = "1";
   };
 }
