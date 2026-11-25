@@ -69,6 +69,7 @@
 
     # Compiler toolchain (nvim was asking for c compiler)
     gcc gnumake gdb
+    tree-sitter # nvim-treesitter needs the CLI to generate some parsers (latex)
 
     # Assembler (NASM) + asm LSP
     nasm asm-lsp
