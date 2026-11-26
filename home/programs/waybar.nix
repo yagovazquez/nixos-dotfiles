@@ -26,6 +26,22 @@ let
     @define-color net-ok ${c.base0C};
     @define-color hover ${c.base02};
   '';
+
+  # One waybar battery module per pack (see "battery#internal" below).
+  mkBattery = bat: label: {
+    inherit bat;
+    adapter = "AC";
+    interval = 15;
+    states = {
+      good = 100;
+      warning = 30;
+      critical = 10;
+    };
+    format = "${label}: {capacity}%";
+    "format-charging" = "${label} CHR: {capacity}%";
+    "format-plugged" = "${label} AC: {capacity}%";
+    "tooltip-format" = "${bat}: {capacity}%, {timeTo}";
+  };
 in
 {
   programs.waybar = {
@@ -90,17 +106,11 @@ in
         "on-click" = "kitty -e nmtui";
       };
 
-      battery = {
-        interval = 15;
-        states = {
-          good = 100;
-          warning = 30;
-          critical = 10;
-        };
-        format = "BAT: {capacity}%";
-        "format-charging" = "CHR: {capacity}%";
-        "format-plugged" = "AC: {capacity}%";
-      };
+      # The laptop (ThinkPad) has two packs: BAT0 is the internal one, BAT1 the
+      # removable external one. Without `bat`, waybar merges them into a single
+      # percentage that matches neither, so show one module per pack.
+      "battery#internal" = mkBattery "BAT0" "INT";
+      "battery#external" = mkBattery "BAT1" "EXT";
 
       backlight = {
         format = "BRI: {percent}%";

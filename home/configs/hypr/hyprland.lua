@@ -98,6 +98,12 @@ hl.config({
     gestures = {
         -- workspace_swipe = false
     },
+    -- With a fractional monitor scale (laptop: 1.25), let XWayland apps render at
+    -- native resolution instead of being upscaled blurry. They look smaller, but
+    -- almost everything here is native Wayland (NIXOS_OZONE_WL covers Electron).
+    xwayland = {
+        force_zero_scaling = true,
+    },
 })
 
 ---------------------

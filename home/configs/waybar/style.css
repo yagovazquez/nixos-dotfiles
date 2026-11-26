@@ -96,6 +96,7 @@ label:hover {
 #cpu + #memory,
 #memory + #network,
 #network + #battery,
+#battery + #battery,
 #battery + #backlight,
 #backlight + #pulseaudio,
 #pulseaudio + #custom-timer,

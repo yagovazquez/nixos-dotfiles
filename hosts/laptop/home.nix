@@ -37,8 +37,11 @@
 
   # Spliced into home/configs/hypr/hyprland.lua in place of __MONITORS__.
   my.hyprland.monitors = ''
-    hl.monitor({ output = "eDP-1", mode = "1366x768", position = "0x0", scale = "1" })
-    hl.monitor({ output = "desc:AOC 24G2W1G4 0x00009CC8", mode = "preferred", position = "-277x-1080", scale = "1" })
+    -- 1920x1080 on 14" is ~157 DPI: scale 1.25 gives a 1536x864 logical desktop at
+    -- full native sharpness. Positions are in logical px, so the 1920-wide AOC is
+    -- centred above it at x = (1536 - 1920) / 2 = -192.
+    hl.monitor({ output = "eDP-1", mode = "1920x1080@60", position = "0x0", scale = "1.25" })
+    hl.monitor({ output = "desc:AOC 24G2W1G4 0x00009CC8", mode = "preferred", position = "-192x-1080", scale = "1" })
     -- TV Philips: its EDID prefers 1080p@50 (EU), force 60 Hz for smoother output.
     -- The TV overscans (crops the edges); `reserved` keeps windows/waybar inside the
     -- visible area (measured with a test pattern). Set to 0 if the TV's picture
@@ -46,5 +49,5 @@
   '';
 
   # Only a laptop has a battery and a backlight to show.
-  programs.waybar.settings.mainBar."modules-right" = [ "battery" "backlight" "pulseaudio" "network" ];
+  programs.waybar.settings.mainBar."modules-right" = [ "battery#internal" "battery#external" "backlight" "pulseaudio" "network" ];
 }

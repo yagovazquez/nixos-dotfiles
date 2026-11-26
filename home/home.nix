@@ -27,8 +27,9 @@
 
   # Programs
   home.packages = with pkgs; [
-	unstablePkgs.claude-code # stable channel lags upstream releases
-	waybar
+	  unstablePkgs.antigravity-cli
+    unstablePkgs.claude-code # stable channel lags upstream releases
+	  waybar
     google-chrome
     udisks2
     jdk25				 # minecraft
@@ -43,16 +44,13 @@
     telegram-desktop
     obsidian             #note taking
     anki-bin             #flash cards
-    # VSCode 1.144.0 renamed its bundled @vscode/ripgrep to @vscode/ripgrep-universal
-    # and moved the binary into a per-platform dir (bin/linux-x64/rg); nixpkgs'
-    # postPatch still targets the old path, so the build fails. Point it at the
     # new location until nixpkgs catches up upstream.
     ((vscode.override { useVSCodeRipgrep = true; }).overrideAttrs (old: {
       postPatch = builtins.replaceStrings
         [ "node_modules/@vscode/ripgrep/bin/rg" ]
         [ "node_modules/@vscode/ripgrep-universal/bin/linux-x64/rg" ]
         old.postPatch;
-    })) # graphic code editor
+    }))
     unstablePkgs.code-cursor # ai editor (from nixpkgs-unstable, stable channel lags upstream releases)
     gimp	inkscape		 # image edition
     viewnior

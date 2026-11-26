@@ -6,7 +6,7 @@ lives at `~/nix-config` on both machines and is pushed to
 
 | Host (= hostname) | Hardware | Used for |
 |---|---|---|
-| `laptop` | Laptop, 1366x768 eDP-1, plus an AOC monitor and Philips TV when docked. Dead battery. | Daily driver; Claude Code usually runs here |
+| `laptop` | Laptop, 1920x1080 eDP-1 at scale 1.25 (panel replaced 2026-11, was 1366x768), plus an AOC monitor and Philips TV when docked. Two batteries: BAT0 internal, BAT1 external. | Daily driver; Claude Code usually runs here |
 | `pc` | i5-9400F, GTX 1060 6GB (Pascal), 16 GB, 240 GB SSD (system) + 1 TB HDD | Casual gaming, ML over SSH. Not on 24/7 |
 
 Check `hostname` first to know which machine you're on.
